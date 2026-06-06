@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ForestAmbience from "@/components/ForestAmbience";
-import IntroAnimation from "@/components/IntroAnimation";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -39,7 +38,6 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${fraunces.variable} ${inter.variable} ${caveat.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-paper text-ink antialiased">
-        <IntroAnimation />
         <ForestAmbience />
         <Header />
         <main className="flex-1">{children}</main>
