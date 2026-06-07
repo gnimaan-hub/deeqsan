@@ -29,7 +29,7 @@ export default function Footer() {
           <div>
             <Logo variant="paper" />
             {/* text-ink (full opacity) sur bg-lagoon = 6.9:1 — passe WCAG AA */}
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink">
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-dark">
               <T
                 fr="Librairie et première maison d'édition à compte d'éditeur de Djibouti — sentinelle des voix de la Corne de l'Afrique et d'ailleurs."
                 en="Bookstore and Djibouti's first independent publishing house — guardian of voices from the Horn of Africa and beyond."
@@ -42,7 +42,7 @@ export default function Footer() {
               <T fr="Navigation" en="Navigation" />
             </h3>
             {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
-            <ul className="mt-4 space-y-2.5 text-sm text-ink/80">
+            <ul className="mt-4 space-y-2.5 text-sm text-ink-dark">
               {sitemap.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="transition-colors hover:text-ink">
@@ -58,7 +58,7 @@ export default function Footer() {
               <T fr="Nous trouver" en="Find us" />
             </h3>
             {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
-            <ul className="mt-4 space-y-2.5 text-sm text-ink/80">
+            <ul className="mt-4 space-y-2.5 text-sm text-ink-dark/80">
               <li>Djibouti, Djibouti Ville</li>
               <li>
                 <a href="tel:+253778111101" className="transition-colors hover:text-ink">+253 77 81 11 01</a>
@@ -74,7 +74,7 @@ export default function Footer() {
               <T fr="Venez nous rendre visite" en="Come visit us" />
             </h3>
             {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
-            <p className="mt-4 text-sm leading-relaxed text-ink/80">
+            <p className="mt-4 text-sm leading-relaxed text-ink-dark/80">
               <T
                 fr="Notre équipe vous accueille en librairie pour vous conseiller, feuilleter nos ouvrages et découvrir nos prochaines parutions."
                 en="Our team welcomes you in-store to advise you, browse our books and discover our upcoming releases."
@@ -92,7 +92,7 @@ export default function Footer() {
 
         {/* aria-hidden : le bandeau défilant est purement décoratif — exclut les mots du contrôle de contraste */}
         <div className="marquee mt-14 border-t border-ink/10 py-5" aria-hidden="true">
-          <div className="marquee__track gap-10 pr-10 text-xs uppercase tracking-[0.3em] text-ink/40">
+          <div className="marquee__track gap-10 pr-10 text-xs uppercase tracking-[0.3em] text-ink-dark/80">
             {Array.from({ length: 2 }).map((_, dup) => (
               <div key={dup} className="flex shrink-0 items-center gap-10 pr-10">
                 {marqueeWords.map((word) => (

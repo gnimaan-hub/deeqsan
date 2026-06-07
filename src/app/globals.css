@@ -12,6 +12,7 @@
   --surface: #1b3527;
   --ink: #f1ede1;
   --ink-soft: #aebcad;
+  --ink-dark: #1a1616;
 
   --jade: #27b892;
   --jade-deep: #11876a;
@@ -39,6 +40,7 @@
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
+  --color-ink-dark: var(--ink-dark);
 
   --color-jade: var(--jade);
   --color-jade-deep: var(--jade-deep);
@@ -77,6 +79,7 @@ html {
   --surface: #ffffff;
   --ink: #1a2b1f;
   --ink-soft: #4a6355;
+  --ink-dark: #dfd8d8;
   --sand: #d4c9b0;
   --jade-bright: #0d9e72;
   --shadow-color: 150 40% 10%;

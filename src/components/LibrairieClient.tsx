@@ -387,10 +387,10 @@ export default function LibrairieClient() {
         <Eyebrow tone="mango" className="relative mx-auto">
           Une librairie à visage humain
         </Eyebrow>
-        <h2 className="mx-auto mt-4 max-w-xl font-display text-2xl font-semibold text-balance sm:text-3xl">
+        <h2 className="mx-auto mt-4 max-w-xl font-display text-2xl font-semibold text-ink-dark sm:text-3xl">
           Les prix changent, les conseils restent gratuits — venez nous rendre visite
         </h2>
-        <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink/75">
+        <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink-dark">
           Ce catalogue évolue régulièrement avec nos arrivages. Pour connaître la
           disponibilité d&rsquo;un titre ou recevoir une recommandation personnalisée,
           le plus simple reste de passer nous voir ou de nous écrire.

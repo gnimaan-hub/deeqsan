@@ -267,7 +267,7 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/maison-edition"
-                className="inline-flex items-center gap-2 rounded-full bg-lagoon px-7 py-3.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5 hover:bg-lagoon-deep"
+                className="inline-flex items-center gap-2 rounded-full bg-lagoon px-7 py-3.5 text-sm font-semibold text-ink-dark transition-transform hover:-translate-y-0.5 hover:bg-lagoon-deep"
               >
                 <T fr="Découvrir notre démarche" en="Discover our approach" />
                 <span aria-hidden>&rarr;</span>
@@ -298,10 +298,10 @@ export default function Home() {
           <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
             <Reveal>
               <Eyebrow tone="mango"><T fr="Vie de la maison" en="Events & news" /></Eyebrow>
-              <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight sm:text-4xl text-balance">
+              <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight sm:text-4xl text-ink-dark">
                 <T fr="Rencontres, dédicaces et célébrations littéraires" en="Signings, meet-the-author events and literary celebrations" />
               </h2>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-ink/75">
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-ink-dark">
                 <T
                   fr="Suivez nos prochains rendez-vous et revivez les temps forts de nos événements passés."
                   en="Follow our upcoming events and relive the highlights of our past events."
@@ -321,10 +321,10 @@ export default function Home() {
                 <Eyebrow tone="jade" className="bg-jade/20 text-jade-pale">
                   <T fr="À la une" en="Featured" />
                 </Eyebrow>
-                <h3 className="mt-4 font-display text-xl font-semibold text-balance">
+                <h3 className="mt-4 font-display text-xl font-semibold text-ink-dark">
                   <T fr="La Journée de la Culture Multilingue" en="The Multilingual Culture Day" />
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/70">
+                <p className="mt-3 text-sm leading-relaxed text-ink-dark">
                   <T
                     fr="Retour sur un évènement réussi : lectures, ateliers et rencontres autour des langues somali, afar, arabe et français ont rassemblé notre communauté de lecteurs autour d'un même amour des mots."
                     en="Looking back at a successful event: readings, workshops and encounters around Somali, Afar, Arabic and French gathered our community of readers around a shared love of words."
