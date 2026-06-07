@@ -6,7 +6,16 @@ import Eyebrow from "@/components/Eyebrow";
 export const metadata: Metadata = {
   title: "Évènements — Les Éditions Deeqsan",
   description:
-    "Suivez la vie littéraire des Éditions Deeqsan à Djibouti-Ville : rencontres d'auteurs, ateliers d'écriture, lancements d'ouvrages et journées culturelles.",
+    "Suivez la vie littéraire des Éditions Deeqsan à Djibouti : rencontres d'auteurs, ateliers d'écriture, lancements d'ouvrages et journées culturelles.",
+  openGraph: {
+    title: "Évènements — Les Éditions Deeqsan",
+    description: "Rencontres d'auteurs, ateliers d'écriture et journées culturelles à Djibouti.",
+    url: "https://www.deeqsan.net/evenements",
+  },
+  twitter: {
+    title: "Évènements — Les Éditions Deeqsan",
+    description: "Rencontres d'auteurs, ateliers d'écriture et journées culturelles à Djibouti.",
+  },
 };
 
 /**
@@ -17,7 +26,7 @@ const upcoming = [
   {
     title: "Lancement de « Les vacances de Habib »",
     date: "À confirmer — prochainement",
-    place: "Librairie Deeqsan, Djibouti-Ville",
+    place: "Librairie Deeqsan, Djibouti",
     tone: "jade" as const,
     text: "Une après-midi de lecture, de dédicaces et de rencontre avec l'équipe éditoriale autour de notre dernier album jeunesse trilingue.",
     isPlaceholder: true,
@@ -33,7 +42,7 @@ const upcoming = [
   {
     title: "Rencontre avec les auteurs de la maison",
     date: "À confirmer — prochainement",
-    place: "Librairie Deeqsan, Djibouti-Ville",
+    place: "Librairie Deeqsan, Djibouti",
     tone: "mango" as const,
     text: "Un moment d'échange convivial autour d'un café : nos auteurs présentent leurs ouvrages, leur parcours et répondent aux questions des lecteurs.",
     isPlaceholder: true,
@@ -44,9 +53,9 @@ export default function EvenementsPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-grain bg-canopy-motif pb-16 pt-16 lg:pt-24">
-        <div aria-hidden className="bg-aura absolute inset-0 -z-10">
-          <span className="absolute -left-28 -top-28 h-96 w-96 bg-mango/20" />
-          <span className="absolute -right-16 top-16 h-72 w-72 bg-jade/15" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <span className="animate-glow-pulse absolute -left-16 -top-16 h-72 w-72 rounded-full bg-mango/20 blur-3xl" />
+          <span className="animate-glow-pulse absolute -right-16 top-16 h-64 w-64 rounded-full bg-jade/15 blur-3xl" style={{ animationDelay: "2s" }} />
         </div>
         <div className="mx-auto max-w-3xl px-6 text-center lg:px-10">
           <Reveal>
@@ -55,7 +64,7 @@ export default function EvenementsPage() {
               Rencontres, dédicaces et <span className="text-shimmer">célébrations littéraires</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
-              Les Éditions Deeqsan animent la vie culturelle de Djibouti-Ville :
+              Les Éditions Deeqsan animent la vie culturelle de Djibouti :
               ateliers, lancements d&rsquo;ouvrages, journées thématiques. Voici
               nos prochains rendez-vous, et un retour sur les temps forts passés.
             </p>
@@ -148,7 +157,7 @@ export default function EvenementsPage() {
                 <div className="mt-4 space-y-4 text-base leading-relaxed text-ink-soft">
                   <p>
                     Nous sommes ravis de revenir sur les moments forts de notre
-                    Journée de la Culture Multilingue, organisée à Djibouti-Ville.
+                    Journée de la Culture Multilingue, organisée à Djibouti.
                     Cet évènement a réuni notre communauté de lecteurs autour d&rsquo;un
                     même amour des mots — somali, afar, arabe et français se sont
                     répondus le temps d&rsquo;un après-midi de lectures, d&rsquo;ateliers

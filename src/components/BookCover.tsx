@@ -15,11 +15,12 @@ const sizes = {
   lg: { w: 288, h: 412 },
 };
 
-/**
- * Couverture "image améliorée" : pas de maquette 3D — un visuel travaillé
- * (photo réelle ou composition générative botanique), avec grain, dégradé
- * duotone et un léger lustre vivant au survol.
- */
+const imageSizes = {
+  sm: "(max-width: 640px) 140px, 168px",
+  md: "(max-width: 640px) 180px, 220px",
+  lg: "(max-width: 640px) 220px, 288px",
+};
+
 export default function BookCover({ title, author, cover, palette, size = "md", priority = false }: BookCoverProps) {
   const { w, h } = sizes[size];
   const gradientId = `cover-leaf-${title.replace(/[^a-zA-Z0-9]/g, "").slice(0, 24)}`;
@@ -36,6 +37,7 @@ export default function BookCover({ title, author, cover, palette, size = "md", 
           width={w}
           height={h}
           priority={priority}
+          sizes={imageSizes[size]}
           className="cover-card__img h-full w-full object-cover"
         />
       ) : (

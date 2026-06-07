@@ -35,9 +35,9 @@ export default async function BookPage({ params }: Props) {
   return (
     <article>
       <section className="relative overflow-hidden bg-grain bg-canopy-motif pb-16 pt-12 lg:pt-16">
-        <div aria-hidden className="bg-aura absolute inset-0 -z-10">
-          <span className="absolute -left-28 -top-24 h-80 w-80" style={{ background: book.coverPalette[0] + "33" }} />
-          <span className="absolute -right-16 bottom-[-4rem] h-72 w-72" style={{ background: book.coverPalette[1] + "33" }} />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <span className="animate-glow-pulse absolute -left-16 -top-16 h-72 w-72 rounded-full blur-3xl" style={{ background: book.coverPalette[0] + "40" }} />
+          <span className="animate-glow-pulse absolute -right-12 bottom-0 h-64 w-64 rounded-full blur-3xl" style={{ background: book.coverPalette[1] + "35", animationDelay: "1.8s" }} />
         </div>
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <Reveal>
@@ -157,7 +157,7 @@ export default async function BookPage({ params }: Props) {
 
         <Reveal delay={100} className="border-organic group relative mt-12 overflow-hidden border-jade/35 bg-jade-pale/40 px-6 py-5 text-sm text-ink-soft transition-colors hover:border-jade/60 hover:bg-jade-pale/60">
           Cet
-          ouvrage vous attend dans nos rayons à Djibouti-Ville. Passez nous voir pour le
+          ouvrage vous attend dans nos rayons à Djibouti. Passez nous voir pour le
           feuilleter, demander conseil ou réserver votre exemplaire.
         </Reveal>
       </section>

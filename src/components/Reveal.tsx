@@ -7,9 +7,10 @@ type RevealProps = {
   delay?: number;
   className?: string;
   as?: "div" | "li" | "span";
+  aboveFold?: boolean; // transform-only animation: LCP element stays visible from first render
 };
 
-export default function Reveal({ children, delay = 0, className = "", as = "div" }: RevealProps) {
+export default function Reveal({ children, delay = 0, className = "", as = "div", aboveFold = false }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -31,11 +32,13 @@ export default function Reveal({ children, delay = 0, className = "", as = "div"
     return () => observer.disconnect();
   }, []);
 
+  const baseClass = aboveFold ? "reveal-hero" : "reveal";
+
   return createElement(
     as,
     {
       ref,
-      className: `reveal ${visible ? "is-visible" : ""} ${className}`,
+      className: `${baseClass} ${visible ? "is-visible" : ""} ${className}`,
       style: { transitionDelay: `${delay}ms` },
     },
     children

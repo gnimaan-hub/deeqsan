@@ -6,7 +6,16 @@ import ContactForm from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact — Les Éditions Deeqsan",
   description:
-    "Contactez Les Éditions Deeqsan à Djibouti-Ville : adresse, téléphone, emails et formulaire de contact pour vos questions, commandes et projets éditoriaux.",
+    "Contactez Les Éditions Deeqsan à Djibouti : adresse, téléphone, emails et formulaire de contact pour vos questions, commandes et projets éditoriaux.",
+  openGraph: {
+    title: "Contact — Les Éditions Deeqsan",
+    description: "Adresse, téléphone, email et formulaire de contact pour la librairie de Djibouti.",
+    url: "https://www.deeqsan.net/contact",
+  },
+  twitter: {
+    title: "Contact — Les Éditions Deeqsan",
+    description: "Adresse, téléphone, email et formulaire de contact pour la librairie de Djibouti.",
+  },
 };
 
 const infoCards = [
@@ -32,9 +41,9 @@ export default function ContactPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-grain pb-12 pt-16 lg:pt-24">
-        <div aria-hidden className="bg-aura absolute inset-0 -z-10">
-          <span className="absolute -left-28 -top-28 h-96 w-96 bg-coral/15" />
-          <span className="absolute -right-16 top-16 h-72 w-72 bg-jade/20" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <span className="animate-glow-pulse absolute -left-16 -top-16 h-72 w-72 rounded-full bg-coral/18 blur-3xl" />
+          <span className="animate-glow-pulse absolute -right-16 top-16 h-64 w-64 rounded-full bg-jade/18 blur-3xl" style={{ animationDelay: "2s" }} />
         </div>
         <div className="mx-auto max-w-3xl px-6 text-center lg:px-10">
           <Reveal>
@@ -44,7 +53,7 @@ export default function ContactPage() {
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
               Une question sur un ouvrage, une envie de soumettre un manuscrit, un
-              projet d&rsquo;évènement ? Notre équipe à Djibouti-Ville se fera un
+              projet d&rsquo;évènement ? Notre équipe à Djibouti se fera un
               plaisir de vous répondre.
             </p>
             <p className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full bg-surface/55 px-4 py-1.5 text-xs font-medium text-ink-soft">
@@ -52,7 +61,7 @@ export default function ContactPage() {
                 <span className="absolute inline-flex h-full w-full animate-live-pulse rounded-full" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-coral" />
               </span>
-              Réponse sous 48h ouvrées · équipe basée à Djibouti-Ville
+              Réponse sous 48h ouvrées · équipe basée à Djibouti
             </p>
           </Reveal>
         </div>
@@ -101,7 +110,7 @@ export default function ContactPage() {
             ))}
 
             <div className="group relative overflow-hidden rounded-2xl border border-dashed border-jade/35 bg-jade-pale/40 p-6 text-sm leading-relaxed text-ink-soft transition-colors hover:border-jade/60 hover:bg-jade-pale/60">
-              <span className="font-semibold text-jade-bright">De passage à Djibouti-Ville ?</span>{" "}
+              <span className="font-semibold text-jade-bright">De passage à Djibouti ?</span>{" "}
               Notre équipe vous accueille avec plaisir en magasin pour vous conseiller,
               vous faire découvrir nos parutions et organiser dédicaces ou ateliers.
             </div>

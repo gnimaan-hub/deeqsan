@@ -21,11 +21,6 @@ const HUES: Record<Particle["hue"], string> = {
 
 const HUE_WEIGHTS: Particle["hue"][] = ["jade", "jade", "jade", "mango", "coral"];
 
-/**
- * Fond canvas discret — motes de lumière dorée qui dérivent lentement,
- * comme la poussière de pollen suspendue dans une clairière de forêt
- * tropicale. Très basse opacité : une présence vivante, pas un décor.
- */
 export default function ForestAmbience() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -33,7 +28,11 @@ export default function ForestAmbience() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Skip entirely on small screens — canvas loop is expensive on mobile
+    if (window.innerWidth < 768) return;
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -44,9 +43,11 @@ export default function ForestAmbience() {
     let particles: Particle[] = [];
     let frame = 0;
     let raf = 0;
+    let running = true;
 
     function buildParticles() {
-      const count = Math.max(18, Math.min(46, Math.round((width * height) / 46000)));
+      // Fewer particles for better performance
+      const count = Math.max(12, Math.min(28, Math.round((width * height) / 60000)));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -71,7 +72,7 @@ export default function ForestAmbience() {
     }
 
     function draw() {
-      if (!ctx) return;
+      if (!ctx || !running) return;
       ctx.clearRect(0, 0, width, height);
       frame += 1;
 
@@ -108,18 +109,25 @@ export default function ForestAmbience() {
       raf = requestAnimationFrame(draw);
     }
 
-    resize();
-    window.addEventListener("resize", resize);
-
-    if (reduceMotion) {
-      draw();
-      cancelAnimationFrame(raf);
-    } else {
-      raf = requestAnimationFrame(draw);
+    function handleVisibility() {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(raf);
+      } else {
+        running = true;
+        raf = requestAnimationFrame(draw);
+      }
     }
 
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibility);
+    raf = requestAnimationFrame(draw);
+
     return () => {
+      running = false;
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(raf);
     };
   }, []);
