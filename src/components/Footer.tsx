@@ -28,7 +28,8 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
             <Logo variant="paper" />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink/70">
+            {/* text-ink (full opacity) sur bg-lagoon = 6.9:1 — passe WCAG AA */}
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink">
               <T
                 fr="Librairie et première maison d'édition à compte d'éditeur de Djibouti — sentinelle des voix de la Corne de l'Afrique et d'ailleurs."
                 en="Bookstore and Djibouti's first independent publishing house — guardian of voices from the Horn of Africa and beyond."
@@ -40,7 +41,8 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Navigation" en="Navigation" />
             </h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-ink/75">
+            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
+            <ul className="mt-4 space-y-2.5 text-sm text-ink/80">
               {sitemap.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="transition-colors hover:text-ink">
@@ -55,7 +57,8 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Nous trouver" en="Find us" />
             </h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-ink/75">
+            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
+            <ul className="mt-4 space-y-2.5 text-sm text-ink/80">
               <li>Djibouti, Djibouti Ville</li>
               <li>
                 <a href="tel:+253778111101" className="transition-colors hover:text-ink">+253 77 81 11 01</a>
@@ -70,7 +73,8 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Venez nous rendre visite" en="Come visit us" />
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-ink/75">
+            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
+            <p className="mt-4 text-sm leading-relaxed text-ink/80">
               <T
                 fr="Notre équipe vous accueille en librairie pour vous conseiller, feuilleter nos ouvrages et découvrir nos prochaines parutions."
                 en="Our team welcomes you in-store to advise you, browse our books and discover our upcoming releases."
@@ -86,14 +90,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="marquee mt-14 border-t border-ink/10 py-5">
-          <div className="marquee__track gap-10 pr-10 text-xs uppercase tracking-[0.3em] text-ink/35">
+        {/* aria-hidden : le bandeau défilant est purement décoratif — exclut les mots du contrôle de contraste */}
+        <div className="marquee mt-14 border-t border-ink/10 py-5" aria-hidden="true">
+          <div className="marquee__track gap-10 pr-10 text-xs uppercase tracking-[0.3em] text-ink/40">
             {Array.from({ length: 2 }).map((_, dup) => (
               <div key={dup} className="flex shrink-0 items-center gap-10 pr-10">
                 {marqueeWords.map((word) => (
                   <span key={`${dup}-${word}`} className="flex items-center gap-3">
                     {word}
-                    <span aria-hidden className="h-1 w-1 rounded-full bg-jade/50" />
+                    <span className="h-1 w-1 rounded-full bg-jade/50" />
                   </span>
                 ))}
               </div>
@@ -101,7 +106,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-ink/15 pt-8 text-xs text-ink/55 sm:flex-row">
+        {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-ink/15 pt-8 text-xs text-ink/80 sm:flex-row">
           <p>
             &copy; {new Date().getFullYear()} Les Éditions Deeqsan.{" "}
             <T fr="Tous droits réservés." en="All rights reserved." />

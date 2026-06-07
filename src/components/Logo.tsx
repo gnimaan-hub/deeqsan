@@ -4,7 +4,7 @@ type LogoProps = {
 };
 
 export default function Logo({ className = "", variant = "ink" }: LogoProps) {
-  const textColor = "text-ink";
+  const textColor = variant === "paper" ? "text-white" : "text-ink";
   const subColor = variant === "paper" ? "text-jade-pale" : "text-jade-bright";
 
   return (
