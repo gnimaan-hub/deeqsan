@@ -21,14 +21,14 @@ export default function Footer() {
     : ["Somali", "Afar", "Arabe", "Français", "Véracité", "Bienfaisance", "Pertinence", "Djibouti"];
 
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-sand bg-lagoon text-ink">
+    <footer className="relative mt-24 overflow-hidden border-t border-sand bg-lagoon text-ink-dark">
       <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-jade/20 blur-3xl" />
       <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-coral/10 blur-3xl" style={{ animationDelay: "2.5s" }} />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-10">
         <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
             <Logo variant="paper" />
-            {/* text-ink (full opacity) sur bg-lagoon = 6.9:1 — passe WCAG AA */}
+            {/* text-ink-dark (toujours clair) sur bg-lagoon ≥ 5.7:1 — passe WCAG AA */}
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-dark">
               <T
                 fr="Librairie et première maison d'édition à compte d'éditeur de Djibouti — sentinelle des voix de la Corne de l'Afrique et d'ailleurs."
@@ -41,11 +41,10 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Navigation" en="Navigation" />
             </h3>
-            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
             <ul className="mt-4 space-y-2.5 text-sm text-ink-dark">
               {sitemap.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="transition-colors hover:text-ink">
+                  <Link href={item.href} className="transition-colors hover:text-white">
                     {lang === "en" ? item.en : item.fr}
                   </Link>
                 </li>
@@ -57,14 +56,13 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Nous trouver" en="Find us" />
             </h3>
-            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
             <ul className="mt-4 space-y-2.5 text-sm text-ink-dark/80">
               <li>Djibouti, Djibouti Ville</li>
               <li>
-                <a href="tel:+253778111101" className="transition-colors hover:text-ink">+253 77 81 11 01</a>
+                <a href="tel:+253778111101" className="transition-colors hover:text-white">+253 77 81 11 01</a>
               </li>
               <li>
-                <a href="mailto:contact@deeqsan.net" className="transition-colors hover:text-ink">contact@deeqsan.net</a>
+                <a href="mailto:contact@deeqsan.net" className="transition-colors hover:text-white">contact@deeqsan.net</a>
               </li>
             </ul>
           </div>
@@ -73,7 +71,6 @@ export default function Footer() {
             <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-jade-pale">
               <T fr="Venez nous rendre visite" en="Come visit us" />
             </h3>
-            {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
             <p className="mt-4 text-sm leading-relaxed text-ink-dark/80">
               <T
                 fr="Notre équipe vous accueille en librairie pour vous conseiller, feuilleter nos ouvrages et découvrir nos prochaines parutions."
@@ -106,8 +103,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* text-ink/80 sur bg-lagoon ≈ 5.0:1 — passe WCAG AA */}
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-ink/15 pt-8 text-xs text-ink/80 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-ink/15 pt-8 text-xs text-ink-dark/80 sm:flex-row">
           <p>
             &copy; {new Date().getFullYear()} Les Éditions Deeqsan.{" "}
             <T fr="Tous droits réservés." en="All rights reserved." />

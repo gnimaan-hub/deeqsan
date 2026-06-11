@@ -5,6 +5,8 @@ import Link from "next/link";
 import { books as allBooks, getCategories, type Book } from "@/lib/books";
 import BookCard from "@/components/BookCard";
 import Eyebrow from "@/components/Eyebrow";
+import T from "@/components/T";
+import { useLanguage, type Lang } from "@/contexts/LanguageContext";
 
 type SortKey =
   | "default"
@@ -16,13 +18,13 @@ type SortKey =
 
 const ALL = "Tous";
 
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "default", label: "Ordre du catalogue" },
-  { value: "price-asc", label: "Prix croissant" },
-  { value: "price-desc", label: "Prix décroissant" },
-  { value: "year-desc", label: "Plus récent d'abord" },
-  { value: "year-asc", label: "Plus ancien d'abord" },
-  { value: "title-asc", label: "Titre A → Z" },
+const SORT_OPTIONS: { value: SortKey; fr: string; en: string }[] = [
+  { value: "default", fr: "Ordre du catalogue", en: "Catalogue order" },
+  { value: "price-asc", fr: "Prix croissant", en: "Price: low to high" },
+  { value: "price-desc", fr: "Prix décroissant", en: "Price: high to low" },
+  { value: "year-desc", fr: "Plus récent d'abord", en: "Newest first" },
+  { value: "year-asc", fr: "Plus ancien d'abord", en: "Oldest first" },
+  { value: "title-asc", fr: "Titre A → Z", en: "Title A → Z" },
 ];
 
 const categories = [ALL, ...getCategories()];
@@ -35,6 +37,11 @@ for (const book of allBooks) {
 const availableYears = Array.from(
   new Set(allBooks.map((b) => b.year).filter((y): y is number => y !== undefined))
 ).sort((a, b) => b - a);
+
+function categoryLabel(cat: string, lang: Lang): string {
+  if (cat === ALL) return lang === "en" ? "All" : "Tous";
+  return cat;
+}
 
 function applyFilters(
   books: Book[],
@@ -92,15 +99,18 @@ interface ResultsGridProps {
 }
 
 function ResultsGrid({ filtered, category, hasFilters, onReset }: ResultsGridProps) {
+  const { lang } = useLanguage();
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
         <p className="text-sm text-ink-soft">
           <span className="font-semibold text-ink">{filtered.length}</span>{" "}
-          {filtered.length > 1 ? "ouvrages" : "ouvrage"}
+          {lang === "en"
+            ? filtered.length > 1 ? "books" : "book"
+            : filtered.length > 1 ? "ouvrages" : "ouvrage"}
           {category !== ALL && (
             <>
-              {" "}&middot; rayon{" "}
+              {" "}&middot; <T fr="rayon" en="shelf" />{" "}
               <span className="font-medium text-jade-bright">{category}</span>
             </>
           )}
@@ -113,19 +123,19 @@ function ResultsGrid({ filtered, category, hasFilters, onReset }: ResultsGridPro
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-            Tout afficher
+            <T fr="Tout afficher" en="Show all" />
           </button>
         )}
       </div>
 
       {filtered.length === 0 ? (
         <div className="py-24 text-center">
-          <p className="text-lg text-ink-soft">Aucun ouvrage ne correspond.</p>
+          <p className="text-lg text-ink-soft"><T fr="Aucun ouvrage ne correspond." en="No books match your filters." /></p>
           <button
             onClick={onReset}
             className="mt-4 text-sm font-semibold text-jade-bright transition-colors hover:text-jade"
           >
-            Réinitialiser les filtres
+            <T fr="Réinitialiser les filtres" en="Reset filters" />
           </button>
         </div>
       ) : (
@@ -144,6 +154,7 @@ export default function LibrairieClient() {
   const [search, setSearch] = useState("");
   const [year, setYear] = useState("");
   const [sort, setSort] = useState<SortKey>("default");
+  const { lang } = useLanguage();
 
   const filtered = useMemo(
     () => applyFilters(allBooks, category, search, year, sort),
@@ -159,6 +170,8 @@ export default function LibrairieClient() {
     setYear("");
     setSort("default");
   };
+
+  const searchPlaceholder = lang === "en" ? "Title or author…" : "Titre ou auteur…";
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
@@ -178,7 +191,7 @@ export default function LibrairieClient() {
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Titre ou auteur…"
+              placeholder={searchPlaceholder}
               className="w-full rounded-xl border border-sand bg-surface/70 py-2.5 pl-9 pr-4 text-sm text-ink placeholder:text-ink-soft/50 focus:outline-none focus:border-jade/50 focus:ring-2 focus:ring-jade/10"
             />
           </div>
@@ -189,7 +202,7 @@ export default function LibrairieClient() {
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
-                {opt.label}
+                {lang === "en" ? opt.en : opt.fr}
               </option>
             ))}
           </select>
@@ -206,7 +219,7 @@ export default function LibrairieClient() {
                   : "border border-sand bg-surface/70 text-ink-soft hover:border-jade/40 hover:text-jade-bright"
               }`}
             >
-              {cat}
+              {categoryLabel(cat, lang)}
               <span className={`ml-1 text-[10px] ${category === cat ? "text-white/70" : "text-ink-soft/50"}`}>
                 {categoryCounts[cat]}
               </span>
@@ -223,7 +236,7 @@ export default function LibrairieClient() {
             {/* Search */}
             <div>
               <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-                Rechercher
+                <T fr="Rechercher" en="Search" />
               </p>
               <div className="relative">
                 <svg
@@ -238,7 +251,7 @@ export default function LibrairieClient() {
                   type="search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Titre ou auteur…"
+                  placeholder={searchPlaceholder}
                   className="w-full rounded-xl border border-sand bg-surface/70 py-2.5 pl-9 pr-4 text-sm text-ink placeholder:text-ink-soft/50 focus:border-jade/50 focus:outline-none focus:ring-2 focus:ring-jade/10"
                 />
               </div>
@@ -247,7 +260,7 @@ export default function LibrairieClient() {
             {/* Year filter */}
             <div>
               <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-                Parution
+                <T fr="Parution" en="Published" />
               </p>
               <div className="relative">
                 <select
@@ -255,7 +268,7 @@ export default function LibrairieClient() {
                   onChange={(e) => setYear(e.target.value)}
                   className="w-full appearance-none rounded-xl border border-sand bg-surface/70 py-2.5 pl-3.5 pr-8 text-sm text-ink focus:border-jade/50 focus:outline-none focus:ring-2 focus:ring-jade/10"
                 >
-                  <option value="">Toutes les années</option>
+                  <option value="">{lang === "en" ? "All years" : "Toutes les années"}</option>
                   {availableYears.map((y) => (
                     <option key={y} value={y}>
                       {y}
@@ -276,7 +289,7 @@ export default function LibrairieClient() {
             {/* Sort */}
             <div>
               <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-                Trier par
+                <T fr="Trier par" en="Sort by" />
               </p>
               <div className="relative">
                 <select
@@ -286,7 +299,7 @@ export default function LibrairieClient() {
                 >
                   {SORT_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
-                      {opt.label}
+                      {lang === "en" ? opt.en : opt.fr}
                     </option>
                   ))}
                 </select>
@@ -307,7 +320,7 @@ export default function LibrairieClient() {
             {/* Categories */}
             <div>
               <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-                Rayon
+                <T fr="Rayon" en="Shelf" />
               </p>
               <nav className="max-h-64 space-y-0.5 overflow-y-auto pr-1 [scrollbar-width:thin] [scrollbar-color:var(--sand)_transparent]">
                 {categories.map((cat) => {
@@ -322,7 +335,7 @@ export default function LibrairieClient() {
                           : "text-ink-soft hover:bg-surface hover:text-ink"
                       }`}
                     >
-                      <span>{cat}</span>
+                      <span>{categoryLabel(cat, lang)}</span>
                       <span
                         className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium transition-colors ${
                           isActive
@@ -345,7 +358,7 @@ export default function LibrairieClient() {
                   <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
-                  Réinitialiser les filtres
+                  <T fr="Réinitialiser les filtres" en="Reset filters" />
                 </button>
               )}
             </div>
@@ -374,7 +387,7 @@ export default function LibrairieClient() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="relative mt-20 overflow-hidden rounded-[2rem] border border-sand bg-lagoon bg-canopy-motif px-8 py-12 text-center text-ink sm:px-16">
+      <div className="relative mt-20 overflow-hidden rounded-[2rem] border border-sand bg-lagoon bg-canopy-motif px-8 py-12 text-center text-ink-dark sm:px-16">
         <span
           aria-hidden
           className="animate-glow-pulse pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-jade/20 blur-3xl"
@@ -385,21 +398,25 @@ export default function LibrairieClient() {
           style={{ animationDelay: "2.4s" }}
         />
         <Eyebrow tone="mango" className="relative mx-auto">
-          Une librairie à visage humain
+          <T fr="Une librairie à visage humain" en="A bookstore with a human touch" />
         </Eyebrow>
         <h2 className="mx-auto mt-4 max-w-xl font-display text-2xl font-semibold text-ink-dark sm:text-3xl">
-          Les prix changent, les conseils restent gratuits — venez nous rendre visite
+          <T
+            fr="Les prix changent, les conseils restent gratuits — venez nous rendre visite"
+            en="Prices change, advice stays free — come pay us a visit"
+          />
         </h2>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink-dark">
-          Ce catalogue évolue régulièrement avec nos arrivages. Pour connaître la
-          disponibilité d&rsquo;un titre ou recevoir une recommandation personnalisée,
-          le plus simple reste de passer nous voir ou de nous écrire.
+          <T
+            fr="Ce catalogue évolue régulièrement avec nos arrivages. Pour connaître la disponibilité d'un titre ou recevoir une recommandation personnalisée, le plus simple reste de passer nous voir ou de nous écrire."
+            en="This catalogue evolves regularly with new arrivals. To check a title's availability or get a personal recommendation, the easiest way is to drop by or write to us."
+          />
         </p>
         <Link
           href="/contact"
           className="shine-sweep relative mt-6 inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 hover:bg-jade-deep"
         >
-          Nous trouver
+          <T fr="Nous trouver" en="Find us" />
           <span aria-hidden>&rarr;</span>
         </Link>
       </div>

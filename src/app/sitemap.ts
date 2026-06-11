@@ -12,12 +12,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.5 },
   ];
 
-  const bookRoutes: MetadataRoute.Sitemap = books.map((book) => ({
-    url: `${BASE_URL}/librairie/${book.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: book.isHouseEdition ? 0.8 : 0.6,
-  }));
+  // Les fiches d'exemple (isPlaceholder) ne doivent pas être proposées
+  // aux moteurs de recherche tant que le vrai catalogue n'est pas fourni.
+  const bookRoutes: MetadataRoute.Sitemap = books
+    .filter((book) => !book.isPlaceholder)
+    .map((book) => ({
+      url: `${BASE_URL}/librairie/${book.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: book.isHouseEdition ? 0.8 : 0.6,
+    }));
 
   return [...staticRoutes, ...bookRoutes];
 }

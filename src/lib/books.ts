@@ -31,7 +31,7 @@ const houseEditions: Book[] = [
     price: 1800,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Butti.jpg",
+    cover: "/images/livres/butti.jpg",
     coverPalette: ["#5fb6c4", "#f3b65f"],
     languages: ["Somali", "Afar"],
     summary:
@@ -53,7 +53,7 @@ const houseEditions: Book[] = [
     price: 1800,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Mon-frere-cerveau-colore.jpg",
+    cover: "/images/livres/mon-frere-cerveau-colore.jpg",
     coverPalette: ["#f2785a", "#27b892"],
     languages: ["Somali", "Afar", "Français"],
     summary:
@@ -75,7 +75,7 @@ const houseEditions: Book[] = [
     price: 1900,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Habsamidii-wacays.jpg",
+    cover: "/images/livres/habsamidii-wacays.jpg",
     coverPalette: ["#134a55", "#f3b65f"],
     languages: ["Somali", "Afar", "Français"],
     summary:

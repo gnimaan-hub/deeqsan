@@ -43,3 +43,7 @@ next-env.d.ts
 # reference scraping (not part of the site)
 /_reference/
 /assets_ref/
+
+# logs de dev locaux
+dev.log
+*.log

@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import Eyebrow from "@/components/Eyebrow";
 import BookCover from "@/components/BookCover";
 import BookCard from "@/components/BookCard";
+import T from "@/components/T";
 import { books, getBookBySlug, formatPrice } from "@/lib/books";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -20,6 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${book.title} — Librairie Deeqsan`,
     description: book.summary,
+    // Les fiches d'exemple ne doivent pas être indexées par les moteurs
+    ...(book.isPlaceholder ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -43,7 +46,7 @@ export default async function BookPage({ params }: Props) {
           <Reveal>
             <nav className="flex items-center gap-2 text-sm text-ink-soft">
               <Link href="/librairie" className="link-underline transition-colors hover:text-jade-bright">
-                Librairie
+                <T fr="Librairie" en="Library" />
               </Link>
               <span aria-hidden>/</span>
               <span className="text-ink">{book.category}</span>
@@ -65,12 +68,12 @@ export default async function BookPage({ params }: Props) {
             <Reveal delay={100}>
               {book.isHouseEdition && (
                 <Eyebrow tone="lagoon" className="mb-4">
-                  Édité par Les Éditions Deeqsan
+                  <T fr="Édité par Les Éditions Deeqsan" en="Published by Les Éditions Deeqsan" />
                 </Eyebrow>
               )}
               {book.isPlaceholder && (
                 <Eyebrow tone="coral" className="mb-4">
-                  Exemple de fiche — catalogue à compléter avec le client
+                  <T fr="Exemple de fiche — catalogue à compléter avec le client" en="Sample listing — catalogue to be completed with the client" />
                 </Eyebrow>
               )}
               <div className="flex items-start gap-4">
@@ -89,7 +92,7 @@ export default async function BookPage({ params }: Props) {
                 <p className="mt-2 font-display text-lg italic text-ink-soft">{book.subtitle}</p>
               )}
               <p className="mt-3 text-base text-ink-soft">
-                par <span className="font-medium text-ink">{book.author}</span>
+                <T fr="par" en="by" /> <span className="font-medium text-ink">{book.author}</span>
               </p>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{book.summary}</p>
@@ -102,14 +105,14 @@ export default async function BookPage({ params }: Props) {
                   href="/contact"
                   className="shine-sweep inline-flex items-center gap-2 rounded-full border border-ink/15 bg-surface/70 px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-surface"
                 >
-                  Réserver mon exemplaire en magasin
+                  <T fr="Réserver mon exemplaire en magasin" en="Reserve my copy in-store" />
                   <span aria-hidden>&rarr;</span>
                 </Link>
               </div>
 
               <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-sand pt-6 sm:grid-cols-3">
                 <div>
-                  <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft">Catégorie</dt>
+                  <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft"><T fr="Catégorie" en="Category" /></dt>
                   <dd className="mt-1 text-sm font-medium text-ink">{book.category}</dd>
                 </div>
                 {book.pages && (
@@ -120,12 +123,12 @@ export default async function BookPage({ params }: Props) {
                 )}
                 {book.year && (
                   <div>
-                    <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft">Parution</dt>
+                    <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft"><T fr="Parution" en="Published" /></dt>
                     <dd className="mt-1 text-sm font-medium text-ink">{book.year}</dd>
                   </div>
                 )}
                 <div className="col-span-2 sm:col-span-3">
-                  <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft">Langues disponibles</dt>
+                  <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft"><T fr="Langues disponibles" en="Available languages" /></dt>
                   <dd className="mt-1.5 flex flex-wrap gap-2">
                     {book.languages.map((lang) => (
                       <span
@@ -145,7 +148,7 @@ export default async function BookPage({ params }: Props) {
 
       <section className="mx-auto max-w-4xl px-6 py-16 lg:px-10">
         <Reveal>
-          <h2 className="font-display text-2xl font-semibold text-ink">Résumé &amp; extrait</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink"><T fr="Résumé & extrait" en="Summary & excerpt" /></h2>
           <div className="prose-deeqsan mt-6 space-y-5 text-base leading-relaxed text-ink-soft">
             {book.description.map((paragraph, i) => (
               <p key={i} className={i === 0 ? "text-lg text-ink" : ""}>
@@ -156,9 +159,10 @@ export default async function BookPage({ params }: Props) {
         </Reveal>
 
         <Reveal delay={100} className="border-organic group relative mt-12 overflow-hidden border-jade/35 bg-jade-pale/40 px-6 py-5 text-sm text-ink-soft transition-colors hover:border-jade/60 hover:bg-jade-pale/60">
-          Cet
-          ouvrage vous attend dans nos rayons à Djibouti. Passez nous voir pour le
-          feuilleter, demander conseil ou réserver votre exemplaire.
+          <T
+            fr="Cet ouvrage vous attend dans nos rayons à Djibouti. Passez nous voir pour le feuilleter, demander conseil ou réserver votre exemplaire."
+            en="This book is waiting for you on our shelves in Djibouti. Come by to leaf through it, ask for advice or reserve your copy."
+          />
         </Reveal>
       </section>
 
@@ -167,7 +171,7 @@ export default async function BookPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <h2 className="font-display text-2xl font-semibold text-ink">
-                Dans la même catégorie
+                <T fr="Dans la même catégorie" en="In the same category" />
               </h2>
             </Reveal>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

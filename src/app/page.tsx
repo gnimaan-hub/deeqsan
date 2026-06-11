@@ -153,13 +153,13 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={160}>
-            <div className="bg-canopy-motif group relative h-full overflow-hidden rounded-[2rem] border border-sand bg-lagoon p-9 text-ink shadow-[0_30px_70px_-40px_rgba(12,50,57,0.6)]">
+            <div className="bg-canopy-motif group relative h-full overflow-hidden rounded-[2rem] border border-sand bg-lagoon p-9 text-ink-dark shadow-[0_30px_70px_-40px_rgba(12,50,57,0.6)]">
               <div aria-hidden className="absolute -left-10 -bottom-16 h-48 w-48 rounded-full bg-coral/25 blur-3xl transition-transform duration-500 group-hover:scale-125" />
               <Eyebrow tone="mango"><T fr="La maison d'édition" en="The publishing house" /></Eyebrow>
               <h3 className="mt-4 font-display text-2xl font-semibold">
                 <T fr="La première maison d'édition à compte d'éditeur de Djibouti" en="Djibouti's first independent publishing house" />
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink/75">
+              <p className="mt-3 text-sm leading-relaxed text-ink-dark/80">
                 <T
                   fr="Fondées en 2024, Les Éditions Deeqsan défendent la véracité, la bienfaisance et la pertinence — et soutiennent les voix d'auteurs de la Corne de l'Afrique, du continent et d'ailleurs."
                   en="Founded in 2024, Les Éditions Deeqsan champion truthfulness, benevolence and relevance — supporting the voices of authors from the Horn of Africa, the continent and beyond."
@@ -284,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* APERCU EVENEMENTS */}
-      <section className="relative overflow-hidden bg-lagoon bg-canopy-motif py-20 text-ink">
+      <section className="relative overflow-hidden bg-lagoon bg-canopy-motif py-20 text-ink-dark">
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-jade/20 blur-3xl" />
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -right-10 bottom-0 h-80 w-80 rounded-full bg-mango/15 blur-3xl" style={{ animationDelay: "2.6s" }} />
         <svg aria-hidden className="pointer-events-none absolute left-[6%] bottom-10 hidden h-20 w-20 text-ink/10 sm:block" viewBox="0 0 100 100" fill="none">

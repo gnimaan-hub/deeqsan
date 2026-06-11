@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, Caveat } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -18,13 +18,6 @@ const fraunces = Fraunces({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  subsets: ["latin"],
-  weight: ["600", "700"],
   display: "swap",
 });
 
@@ -74,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${fraunces.variable} ${inter.variable} ${caveat.variable} h-full`} suppressHydrationWarning>
+    <html lang="fr" data-scroll-behavior="smooth" className={`${fraunces.variable} ${inter.variable} h-full`} suppressHydrationWarning>
       {/* suppressHydrationWarning prevents noise from browser extensions (e.g. Kaspersky) that inject scripts into <head> */}
       <head suppressHydrationWarning>
         {/* Inline script to apply saved theme before paint — prevents flash */}
