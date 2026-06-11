@@ -21,7 +21,13 @@ export default function BookCard({ book }: { book: Book }) {
       </h3>
       <p className="mt-1 text-sm text-ink-soft">{book.author}</p>
       <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-jade-bright">
-        <span>{formatPrice(book.price, book.currency)}</span>
+        <span>
+          {book.price != null ? (
+            formatPrice(book.price, book.currency)
+          ) : (
+            <T fr="Prix en librairie" en="Price in-store" />
+          )}
+        </span>
         <span aria-hidden className="text-ink-soft">&middot;</span>
         <span className="link-underline text-ink-soft transition-colors group-hover:text-coral">
           <T fr="Découvrir" en="Discover" />

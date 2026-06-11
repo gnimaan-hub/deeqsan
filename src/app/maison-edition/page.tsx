@@ -513,7 +513,11 @@ export default function MaisonEditionPage() {
                     <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">{book.summary}</p>
                     <div className="mt-5 flex flex-wrap items-center gap-3">
                       <span className="rounded-full bg-jade-pale px-3 py-1 text-xs font-semibold text-jade-deep">
-                        {formatPrice(book.price, book.currency)}
+                        {book.price != null ? (
+                          formatPrice(book.price, book.currency)
+                        ) : (
+                          <T fr="Prix en librairie" en="Price in-store" />
+                        )}
                       </span>
                       {book.languages.map((lang) => (
                         <span key={lang} className="rounded-full bg-sand/70 px-3 py-1 text-xs font-medium text-ink-soft">

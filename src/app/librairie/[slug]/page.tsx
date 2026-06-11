@@ -99,7 +99,11 @@ export default async function BookPage({ params }: Props) {
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <span className="shine-sweep rounded-full bg-jade px-6 py-3 text-lg font-semibold text-white shadow-[0_14px_30px_-12px_rgba(39,184,146,0.6)]">
-                  {formatPrice(book.price, book.currency)}
+                  {book.price != null ? (
+                    formatPrice(book.price, book.currency)
+                  ) : (
+                    <T fr="Prix en librairie" en="Price in-store" />
+                  )}
                 </span>
                 <Link
                   href="/contact"
@@ -125,6 +129,12 @@ export default async function BookPage({ params }: Props) {
                   <div>
                     <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft"><T fr="Parution" en="Published" /></dt>
                     <dd className="mt-1 text-sm font-medium text-ink">{book.year}</dd>
+                  </div>
+                )}
+                {book.isbn && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-[0.16em] text-ink-soft">ISBN</dt>
+                    <dd className="mt-1 text-sm font-medium text-ink">{book.isbn}</dd>
                   </div>
                 )}
                 <div className="col-span-2 sm:col-span-3">

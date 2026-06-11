@@ -72,10 +72,11 @@ function applyFilters(
 
   switch (sort) {
     case "price-asc":
-      result.sort((a, b) => a.price - b.price);
+      // Les ouvrages sans prix communiqué passent en fin de liste
+      result.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
       break;
     case "price-desc":
-      result.sort((a, b) => b.price - a.price);
+      result.sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
       break;
     case "year-desc":
       result.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));

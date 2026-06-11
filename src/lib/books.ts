@@ -3,8 +3,9 @@ export type Book = {
   title: string;
   subtitle?: string;
   author: string;
-  price: number;
-  currency: string;
+  /** Prix en magasin — absent si le tarif n'a pas encore été communiqué */
+  price?: number;
+  currency?: string;
   category: string;
   cover?: string;
   coverPalette: [string, string];
@@ -14,6 +15,7 @@ export type Book = {
   isHouseEdition: boolean;
   pages?: number;
   year?: number;
+  isbn?: string;
   isPlaceholder?: boolean;
 };
 
@@ -192,6 +194,23 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 48,
     year: 2022,
+  },
+  {
+    slug: "maan-filanayn",
+    title: "Maan Filanayn",
+    author: "Sakariye Khayre",
+    category: "Littérature",
+    cover: "/images/livres/maan-filanayn.jpg",
+    coverPalette: ["#c9a876", "#3d2f1f"],
+    languages: ["Somali"],
+    isbn: "9782487618114",
+    summary:
+      "Une œuvre littéraire en somali signée Sakariye Khayre, publiée par Les Éditions Deeqsan — passez en librairie pour la découvrir.",
+    description: [
+      "« Maan Filanayn » — « Je ne m'y attendais pas » — est une œuvre en langue somali de Sakariye Khayre, parue aux Éditions Deeqsan.",
+      "La fiche détaillée de cet ouvrage (résumé, extrait, prix) sera complétée prochainement. En attendant, notre équipe se fera un plaisir de vous le présenter en librairie, à Djibouti.",
+    ],
+    isHouseEdition: true,
   },
 ];
 
@@ -520,6 +539,6 @@ export function getCategories(): string[] {
   return Array.from(new Set(books.map((book) => book.category))).sort();
 }
 
-export function formatPrice(price: number, currency: string): string {
+export function formatPrice(price: number, currency: string = "FDJ"): string {
   return `${price.toLocaleString("fr-FR")} ${currency}`;
 }

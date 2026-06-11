@@ -138,7 +138,11 @@ export default function Header() {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+            aria-label={
+              theme === "dark"
+                ? lang === "en" ? "Switch to light mode" : "Passer en mode clair"
+                : lang === "en" ? "Switch to dark mode" : "Passer en mode sombre"
+            }
             className="flex h-9 w-9 items-center justify-center rounded-full border border-sand bg-paper/70 text-ink-soft transition-colors hover:border-jade/40 hover:text-jade-bright"
           >
             {theme === "dark" ? (
@@ -158,7 +162,11 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={
+              open
+                ? lang === "en" ? "Close menu" : "Fermer le menu"
+                : lang === "en" ? "Open menu" : "Ouvrir le menu"
+            }
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
