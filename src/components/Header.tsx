@@ -80,7 +80,7 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-10 gap-3">
-        <Link href="/" aria-label="Les Éditions Deeqsan — Accueil" className="group/logo shrink-0">
+        <Link href="/" className="group/logo shrink-0">
           <span className="inline-block transition-transform duration-500 group-hover/logo:-rotate-2 group-hover/logo:scale-[1.03]">
             <Logo />
           </span>
@@ -126,7 +126,7 @@ export default function Header() {
           <button
             type="button"
             onClick={toggleLang}
-            aria-label={lang === "fr" ? "Switch to English" : "Passer en français"}
+            aria-label={lang === "fr" ? "FR/EN — Switch to English" : "FR/EN — Passer en français"}
             className="flex h-9 items-center gap-1 rounded-full border border-sand bg-paper/70 px-3 text-xs font-bold text-ink-soft transition-colors hover:border-jade/40 hover:text-jade-bright"
           >
             <span className={lang === "fr" ? "text-jade-bright" : "text-ink-soft"}>FR</span>

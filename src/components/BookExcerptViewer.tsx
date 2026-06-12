@@ -232,8 +232,8 @@ export default function BookExcerptViewer({ pages }: Props) {
           </span>
         </button>
 
-        {/* Pastilles de pagination */}
-        <div className="flex items-center gap-2">
+        {/* Pastilles de pagination — zone tactile de 24px, pastille visuelle dans le span */}
+        <div className="flex items-center gap-1">
           {pages.map((_, i) => (
             <button
               key={i}
@@ -241,12 +241,16 @@ export default function BookExcerptViewer({ pages }: Props) {
               onClick={() => goTo(i)}
               aria-label={`Page ${i + 1}`}
               aria-current={i === current ? "page" : undefined}
-              className={`rounded-full transition-all duration-300 ${
-                i === current
-                  ? "h-2 w-6 bg-jade"
-                  : "h-2 w-2 bg-sand hover:bg-jade/50"
-              }`}
-            />
+              className="group/dot flex h-6 min-w-6 items-center justify-center"
+            >
+              <span
+                className={`rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "h-2 w-6 bg-jade"
+                    : "h-2 w-2 bg-sand group-hover/dot:bg-jade/50"
+                }`}
+              />
+            </button>
           ))}
         </div>
 

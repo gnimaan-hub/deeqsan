@@ -173,9 +173,15 @@ export default function LibrairieClient() {
   };
 
   const searchPlaceholder = lang === "en" ? "Title or author…" : "Titre ou auteur…";
+  const searchLabel = lang === "en" ? "Search by title or author" : "Rechercher par titre ou auteur";
+  const sortLabel = lang === "en" ? "Sort by" : "Trier par";
+  const yearLabel = lang === "en" ? "Filter by publication year" : "Filtrer par année de parution";
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
+      <h2 className="sr-only">
+        <T fr="Catalogue de la librairie" en="Library catalogue" />
+      </h2>
       {/* Mobile filters */}
       <div className="space-y-3 pt-6 lg:hidden">
         <div className="flex gap-2">
@@ -193,12 +199,14 @@ export default function LibrairieClient() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={searchPlaceholder}
+              aria-label={searchLabel}
               className="w-full rounded-xl border border-sand bg-surface/70 py-2.5 pl-9 pr-4 text-sm text-ink placeholder:text-ink-soft/50 focus:outline-none focus:border-jade/50 focus:ring-2 focus:ring-jade/10"
             />
           </div>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
+            aria-label={sortLabel}
             className="rounded-xl border border-sand bg-surface/70 py-2.5 pl-3 pr-7 text-sm text-ink focus:border-jade/50 focus:outline-none"
           >
             {SORT_OPTIONS.map((opt) => (
@@ -253,6 +261,7 @@ export default function LibrairieClient() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={searchPlaceholder}
+                  aria-label={searchLabel}
                   className="w-full rounded-xl border border-sand bg-surface/70 py-2.5 pl-9 pr-4 text-sm text-ink placeholder:text-ink-soft/50 focus:border-jade/50 focus:outline-none focus:ring-2 focus:ring-jade/10"
                 />
               </div>
@@ -267,6 +276,7 @@ export default function LibrairieClient() {
                 <select
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
+                  aria-label={yearLabel}
                   className="w-full appearance-none rounded-xl border border-sand bg-surface/70 py-2.5 pl-3.5 pr-8 text-sm text-ink focus:border-jade/50 focus:outline-none focus:ring-2 focus:ring-jade/10"
                 >
                   <option value="">{lang === "en" ? "All years" : "Toutes les années"}</option>
@@ -296,6 +306,7 @@ export default function LibrairieClient() {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value as SortKey)}
+                  aria-label={sortLabel}
                   className="w-full appearance-none rounded-xl border border-sand bg-surface/70 py-2.5 pl-3.5 pr-8 text-sm text-ink focus:border-jade/50 focus:outline-none focus:ring-2 focus:ring-jade/10"
                 >
                   {SORT_OPTIONS.map((opt) => (
