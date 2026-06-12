@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import Eyebrow from "@/components/Eyebrow";
 import BookCover from "@/components/BookCover";
 import BookCard from "@/components/BookCard";
+import BookExcerptViewer from "@/components/BookExcerptViewer";
 import T from "@/components/T";
 import { books, getBookBySlug, formatPrice } from "@/lib/books";
 
@@ -167,6 +168,8 @@ export default async function BookPage({ params }: Props) {
             ))}
           </div>
         </Reveal>
+
+        {book.excerpt && <BookExcerptViewer pages={book.excerpt} />}
 
         <Reveal delay={100} className="border-organic group relative mt-12 overflow-hidden border-jade/35 bg-jade-pale/40 px-6 py-5 text-sm text-ink-soft transition-colors hover:border-jade/60 hover:bg-jade-pale/60">
           <T

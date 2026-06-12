@@ -12,6 +12,8 @@ export type Book = {
   languages: string[];
   summary: string;
   description: string[];
+  /** Extrait paginé : chaque entrée du tableau est une page, chaque page est un tableau de paragraphes. */
+  excerpt?: string[][];
   isHouseEdition: boolean;
   pages?: number;
   year?: number;
@@ -46,6 +48,21 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 32,
     year: 2024,
+    excerpt: [
+      [
+        "Beriyahaas waxaa jiray magaalo yar oo dhinacyada Gacanka Berbera xiga. Degaanka waxaa horumariyay biyaha badda iyo hoyga kalluunka. Laakiin habeenkii, markii qorraxdu dhacdo, carruurtu waxay si degdeg ah u galaan guryaha.",
+        "Hooyadood waxay ku odhan jirtay: 'Ku soo laabo! Haddaad dibada joogtaan, Buti bay idin cunaysaa!' Ereyga 'Buti' kaliya waxuu gelinayay cabsi qalbi-dhexaadka ah, oo caruurtu ay ku ordaan gusha.",
+      ],
+      [
+        "Laakiin wiilkii Maxamed magiciisu wuxuu ahaa, waxa uu u malayn jiray in Buti uusan dhab ahayn. 'Ma jirto wax la yiraahdo Buti,' ayuu u sheegi jiray saaxiibbadiis. 'Waa sheeko oo kaliya ay carruurta lagu cabsiinayaan.'",
+        "Saaxiibbadiisuna waxay u dhaqdhi jireen, oo qoslayaan. Eeddiisii ayaa tidhi: 'Fiiri, Maxamed — habeenkii ha bixin. Buti waa run!'",
+        "Maxamed oo qoslaya ayuu eeddiisii ku yiri: 'Bal aan xaalkay aragno, kolba Buti ii tusi.'",
+      ],
+      [
+        "Habeenkii danbe, markii Maxamed biyaha u socday jiidda biyaha, wuxuu maqlay sanqadh weyn oo ka timaada dhinaca geedaha waaweyn ee dhabaha ku dhow.",
+        "Jilbihiisu waxay bilaabeen inay garaacaan. Laakiin wuxuu go'aansaday inuu sii wado — qalbigiisuna wuxuu dhaafay cabsida, oo dhan dhan u socdaa mugga habeenka...",
+      ],
+    ],
   },
   {
     slug: "mon-frere-au-cerveau-colore",
@@ -68,6 +85,23 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 28,
     year: 2021,
+    excerpt: [
+      [
+        "Mon frère s'appelle Adam. Il a sept ans — comme moi, ou presque. Moi j'ai sept ans et demi, alors je suis l'aînée, même si on est jumeaux. Maman dit que je suis sortie la première et que j'en ai profité pour prendre toute l'impatience.",
+        "Adam et moi, on se ressemble sur plein de choses. On aime tous les deux le riz à la sauce tomate, les dessins animés du mercredi matin, et les gros orages qui font trembler les fenêtres.",
+        "Mais il y a des choses qui sont différentes chez Adam.",
+      ],
+      [
+        "Adam n'aime pas quand on le touche sans le prévenir. Il dit que ça fait comme des fourmis électriques dans tout son corps. Alors je lui dis toujours : « Adam, je vais te faire un câlin, d'accord ? » Et là, il peut se préparer.",
+        "À la cantine, Adam mange toujours avec ses bouchons d'oreilles orange. Certains enfants rigolent. Moi, ça me met en colère.",
+        "Un soir, j'ai demandé à maman : « Qu'est-ce qui ne va pas chez Adam ? »",
+      ],
+      [
+        "Maman a posé sa tasse de thé. Elle a pris mes deux mains dans les siennes et m'a regardée dans les yeux.",
+        "« Rien ne va pas chez ton frère, ma chérie. Son cerveau est simplement câblé différemment du nôtre. On appelle ça l'autisme. Son cerveau perçoit le monde avec beaucoup, beaucoup plus de détails et de couleurs en même temps que le tien ou le mien. »",
+        "J'ai réfléchi à ça longtemps ce soir-là. Le cerveau coloré d'Adam. J'ai fini par trouver ça plutôt beau.",
+      ],
+    ],
   },
   {
     slug: "habsamidii-wacays",
