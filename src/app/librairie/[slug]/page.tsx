@@ -44,7 +44,7 @@ export default async function BookPage({ params }: Props) {
           <span className="animate-glow-pulse absolute -right-12 bottom-0 h-64 w-64 rounded-full blur-3xl" style={{ background: book.coverPalette[1] + "35", animationDelay: "1.8s" }} />
         </div>
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <Reveal>
+          <Reveal aboveFold>
             <nav className="flex items-center gap-2 text-sm text-ink-soft">
               <Link href="/librairie" className="link-underline transition-colors hover:text-jade-bright">
                 <T fr="Librairie" en="Library" />
@@ -55,7 +55,7 @@ export default async function BookPage({ params }: Props) {
           </Reveal>
 
           <div className="mt-10 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <Reveal className="group/hero relative flex justify-center lg:justify-start">
+            <Reveal aboveFold className="group/hero relative flex justify-center lg:justify-start">
               <span
                 aria-hidden
                 className="animate-glow-pulse absolute -inset-6 -z-10 rounded-[2.5rem] blur-2xl"
@@ -66,7 +66,7 @@ export default async function BookPage({ params }: Props) {
               </div>
             </Reveal>
 
-            <Reveal delay={100}>
+            <Reveal aboveFold delay={100}>
               {book.isHouseEdition && (
                 <Eyebrow tone="lagoon" className="mb-4">
                   <T fr="Édité par Les Éditions Deeqsan" en="Published by Les Éditions Deeqsan" />
@@ -180,7 +180,7 @@ export default async function BookPage({ params }: Props) {
       </section>
 
       {related.length > 0 && (
-        <section className="bg-paper-deep bg-dot-grid py-16">
+        <section className="cv-auto bg-paper-deep bg-dot-grid py-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <h2 className="font-display text-2xl font-semibold text-ink">

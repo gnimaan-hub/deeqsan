@@ -112,7 +112,7 @@ export default function Home() {
       </section>
 
       {/* PRESENTATION RAPIDE — DEUX VISAGES DE DEEQSAN */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-10">
+      <section className="cv-auto mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-10">
         <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow tone="lagoon" className="mx-auto">
             <T fr="Une maison, deux vocations" en="One house, two vocations" />
@@ -175,7 +175,7 @@ export default function Home() {
       </section>
 
       {/* APERCU LIBRAIRIE */}
-      <section className="relative overflow-hidden bg-paper-deep bg-dot-grid py-20">
+      <section className="cv-auto relative overflow-hidden bg-paper-deep bg-dot-grid py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
           <Reveal className="flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -211,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* APERCU MAISON D'EDITION */}
-      <section className="mx-auto max-w-7xl overflow-hidden px-5 py-20 sm:px-6 lg:px-10">
+      <section className="cv-auto mx-auto max-w-7xl overflow-hidden px-5 py-20 sm:px-6 lg:px-10">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <Reveal className="order-2 lg:order-1">
             <div className="relative flex justify-center gap-6 py-6">
@@ -284,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* APERCU EVENEMENTS */}
-      <section className="relative overflow-hidden bg-lagoon bg-canopy-motif py-20 text-ink-dark">
+      <section className="cv-auto relative overflow-hidden bg-lagoon bg-canopy-motif py-20 text-ink-dark">
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-jade/20 blur-3xl" />
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -right-10 bottom-0 h-80 w-80 rounded-full bg-mango/15 blur-3xl" style={{ animationDelay: "2.6s" }} />
         <svg aria-hidden className="pointer-events-none absolute left-[6%] bottom-10 hidden h-20 w-20 text-ink/10 sm:block" viewBox="0 0 100 100" fill="none">
@@ -341,7 +341,7 @@ export default function Home() {
       </section>
 
       {/* APERCU CONTACT / VISITE */}
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-10">
+      <section className="cv-auto mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-10">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2.5rem] border border-sand bg-grain px-8 py-14 text-center shadow-[0_40px_90px_-50px_rgba(19,74,85,0.5)] sm:px-16">
             <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">

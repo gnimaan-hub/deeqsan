@@ -21,7 +21,7 @@ export default function Footer() {
     : ["Somali", "Afar", "Arabe", "Français", "Véracité", "Bienfaisance", "Pertinence", "Djibouti"];
 
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-sand bg-lagoon text-ink-dark">
+    <footer className="cv-auto relative mt-24 overflow-hidden border-t border-sand bg-lagoon text-ink-dark">
       <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-jade/20 blur-3xl" />
       <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-coral/10 blur-3xl" style={{ animationDelay: "2.5s" }} />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-10">

@@ -499,10 +499,29 @@ h1, h2, h3, h4 {
   .animate-glow-pulse {
     animation: none;
     opacity: 0.4;
+    /* blur-3xl (64px) → 28px : halo similaire, rasterisation bien moins coûteuse */
+    filter: blur(28px);
   }
   .cover-card {
     box-shadow:
       0 12px 28px -12px hsl(var(--shadow-color) / 0.4),
       2px 3px 8px rgba(0, 0, 0, 0.18);
+  }
+  /* Textures plein écran à ~5% d'opacité : imperceptibles sur petit écran
+     mais coûteuses au premier rendu (feTurbulence + mix-blend-mode) */
+  .bg-grain::before,
+  .bg-grain::after,
+  .surface-textured::before {
+    display: none;
+  }
+  /* Le dégradé du titre reste, seule la pulsation (filter animé) est coupée */
+  .text-shimmer {
+    animation: none;
+  }
+  /* Les sections sous la ligne de flottaison ne sont mises en page
+     qu'à l'approche du viewport — gros gain de Style & Layout initial */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
   }
 }

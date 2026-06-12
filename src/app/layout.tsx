@@ -6,11 +6,14 @@ import Footer from "@/components/Footer";
 import ForestAmbience from "@/components/ForestAmbience";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
+/* Axes SOFT/WONK retirés (jamais utilisés via font-variation-settings) et
+   italique vrai remplacé par l'oblique synthétisé du navigateur : ~la moitié
+   du poids des polices préchargées en moins sur le chemin critique mobile */
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
-  style: ["normal", "italic"],
+  axes: ["opsz"],
+  style: ["normal"],
   weight: "variable",
   display: "swap",
 });

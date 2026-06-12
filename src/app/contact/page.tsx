@@ -54,7 +54,7 @@ export default function ContactPage() {
           <span className="animate-glow-pulse absolute -right-16 top-16 h-64 w-64 rounded-full bg-jade/18 blur-3xl" style={{ animationDelay: "2s" }} />
         </div>
         <div className="mx-auto max-w-3xl px-6 text-center lg:px-10">
-          <Reveal>
+          <Reveal aboveFold>
             <Eyebrow tone="coral" className="mx-auto"><T fr="Contactez-nous" en="Contact us" /></Eyebrow>
             <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl text-balance">
               <T

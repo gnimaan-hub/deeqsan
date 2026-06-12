@@ -34,7 +34,7 @@ export default function LibrairiePage() {
           />
         </div>
         <div className="mx-auto max-w-4xl px-6 text-center lg:px-10">
-          <Reveal>
+          <Reveal aboveFold>
             <Eyebrow tone="jade" className="mx-auto">
               <T fr="La librairie" en="The bookstore" />
             </Eyebrow>

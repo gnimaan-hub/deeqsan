@@ -279,7 +279,7 @@ export default function MaisonEditionPage() {
           <span className="animate-glow-pulse absolute -right-16 top-20 h-72 w-72 rounded-full bg-mango/20 blur-3xl" style={{ animationDelay: "1.5s" }} />
         </div>
         <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-10">
-          <Reveal>
+          <Reveal aboveFold>
             <Eyebrow tone="lagoon" className="mx-auto">
               <T fr="La maison d'édition" en="The publishing house" />
             </Eyebrow>
