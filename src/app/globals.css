@@ -424,6 +424,49 @@ h1, h2, h3, h4 {
   will-change: auto;
 }
 
+/* Feuilletage des extraits — la feuille pivote sur la reliure (bord gauche).
+   En avançant, la page courante se replie et découvre la suivante dessous ;
+   en reculant, la page précédente se déplie par-dessus. */
+.page-turn-stage {
+  perspective: 1800px;
+}
+.page-turn-sheet {
+  transform-origin: left center;
+  backface-visibility: hidden;
+  will-change: transform;
+  box-shadow: 14px 0 36px -14px rgba(15, 61, 45, 0.4);
+}
+@keyframes page-fold-out {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-89deg); }
+}
+@keyframes page-fold-in {
+  from { transform: rotateY(-89deg); }
+  to { transform: rotateY(0deg); }
+}
+.page-fold-out {
+  animation: page-fold-out 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+}
+.page-fold-in {
+  animation: page-fold-in 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+}
+/* Ombre portée sur la feuille : s'assombrit à mesure qu'elle se redresse */
+.page-turn-shade {
+  opacity: 0;
+  background: linear-gradient(to right, rgba(10, 26, 20, 0.28), rgba(10, 26, 20, 0.06) 55%, transparent);
+  pointer-events: none;
+}
+@keyframes page-shade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-fold-out .page-turn-shade {
+  animation: page-shade 0.55s ease forwards;
+}
+.page-fold-in .page-turn-shade {
+  animation: page-shade 0.55s ease reverse forwards;
+}
+
 ::selection {
   background: var(--jade);
   color: var(--paper);
