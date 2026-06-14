@@ -424,29 +424,107 @@ h1, h2, h3, h4 {
   will-change: auto;
 }
 
-/* Feuilletage — react-pageflip gère le canvas et les animations.
-   On habille juste le conteneur et chaque feuille HTML. */
-.book-stage {
-  /* Ombre douce sous le livre entier */
-  filter: drop-shadow(0 12px 32px rgba(15, 61, 45, 0.18)) drop-shadow(0 2px 6px rgba(15, 61, 45, 0.10));
+/* ─────────────────────────────────────────────────────────────
+   Feuilletage — page qui tourne sur sa reliure (bord gauche).
+
+   L'effet réaliste repose sur trois couches :
+     1. Page de fond (statique, révélée progressivement)
+     2. Ombre portée sur la page de fond (sombre quand la feuille
+        est à mi-chemin, transparente au début et à la fin)
+     3. Feuille qui tourne : rotateY 0→-90° avec lift simulé
+        + dégradé d'assombrissement + liseré lumineux sur le bord.
+   ───────────────────────────────────────────────────────────── */
+
+.page-turn-stage {
+  /* Perspective plus profonde = effet 3D plus marqué */
+  perspective: 2200px;
+  perspective-origin: 50% 45%;
 }
 
-/* Chaque page HTML rendue par react-pageflip */
-.book-page {
-  border: 1px solid color-mix(in srgb, var(--sand) 60%, transparent);
-  box-sizing: border-box;
+.page-turn-sheet {
+  transform-origin: left center;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
-/* Bord extérieur gauche du livre (page paire = côté gauche) */
-.book-page:nth-child(odd) {
-  border-right: none;
-  border-radius: 4px 0 0 4px;
+/* ── Keyframes : la feuille se soulève légèrement avant de plier ── */
+@keyframes page-fold-out {
+  0%   { transform: rotateY(0deg)    translateZ(0px);   box-shadow: 12px 0 28px -12px rgba(15,61,45,0.35); }
+  10%  { transform: rotateY(-7deg)   translateZ(6px);   box-shadow: 22px 0 40px -8px  rgba(15,61,45,0.45); }
+  60%  { transform: rotateY(-55deg)  translateZ(4px);   box-shadow: 10px 0 20px -8px  rgba(15,61,45,0.30); }
+  100% { transform: rotateY(-90deg)  translateZ(0px);   box-shadow: none; }
 }
 
-/* Bord extérieur droit du livre (page impaire = côté droit) */
-.book-page:nth-child(even) {
-  border-left: 1px solid color-mix(in srgb, var(--sand) 30%, transparent);
-  border-radius: 0 4px 4px 0;
+@keyframes page-fold-in {
+  0%   { transform: rotateY(-90deg)  translateZ(0px);   box-shadow: none; }
+  40%  { transform: rotateY(-55deg)  translateZ(4px);   box-shadow: 10px 0 20px -8px  rgba(15,61,45,0.30); }
+  90%  { transform: rotateY(-7deg)   translateZ(6px);   box-shadow: 22px 0 40px -8px  rgba(15,61,45,0.45); }
+  100% { transform: rotateY(0deg)    translateZ(0px);   box-shadow: 12px 0 28px -12px rgba(15,61,45,0.35); }
+}
+
+/* Courbe naturelle : démarre vite (inertie brisée) puis se pose doucement */
+.page-fold-out {
+  animation: page-fold-out 0.65s cubic-bezier(0.4, 0.0, 0.3, 1.0) forwards;
+}
+.page-fold-in {
+  animation: page-fold-in 0.65s cubic-bezier(0.4, 0.0, 0.3, 1.0) forwards;
+}
+
+/* ── Assombrissement de la feuille qui tourne ── */
+.page-turn-shade {
+  opacity: 0;
+  /* Dégradé directionnel : bord gauche (reliure) reste clair,
+     la partie centrale s'assombrit pour simuler la courbure */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(10, 26, 20, 0.04) 30%,
+    rgba(10, 26, 20, 0.22) 80%,
+    rgba(10, 26, 20, 0.30) 100%
+  );
+  pointer-events: none;
+}
+
+@keyframes page-shade-out {
+  0%   { opacity: 0; }
+  40%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+@keyframes page-shade-in {
+  0%   { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.page-fold-out .page-turn-shade  { animation: page-shade-out 0.65s ease forwards; }
+.page-fold-in  .page-turn-shade  { animation: page-shade-in  0.65s ease forwards; }
+
+/* ── Ombre portée sur la page de fond ── */
+.page-base-shadow-out {
+  animation: base-shadow-out 0.65s ease forwards;
+}
+.page-base-shadow-in {
+  animation: base-shadow-in 0.65s ease forwards;
+}
+
+@keyframes base-shadow-out {
+  0%   { background: linear-gradient(to right, rgba(15,61,45,0.00) 0%, transparent 100%); }
+  25%  { background: linear-gradient(to right, rgba(15,61,45,0.18) 0%, rgba(15,61,45,0.06) 45%, transparent 70%); }
+  70%  { background: linear-gradient(to right, rgba(15,61,45,0.10) 0%, rgba(15,61,45,0.03) 30%, transparent 55%); }
+  100% { background: linear-gradient(to right, rgba(15,61,45,0.00) 0%, transparent 100%); }
+}
+@keyframes base-shadow-in {
+  0%   { background: linear-gradient(to right, rgba(15,61,45,0.00) 0%, transparent 100%); }
+  30%  { background: linear-gradient(to right, rgba(15,61,45,0.10) 0%, rgba(15,61,45,0.03) 30%, transparent 55%); }
+  75%  { background: linear-gradient(to right, rgba(15,61,45,0.18) 0%, rgba(15,61,45,0.06) 45%, transparent 70%); }
+  100% { background: linear-gradient(to right, rgba(15,61,45,0.00) 0%, transparent 100%); }
+}
+
+/* ── Pose après un swipe ── */
+.page-turn-settle {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.page-turn-settle .page-turn-shade {
+  transition: opacity 0.35s ease;
 }
 
 ::selection {
