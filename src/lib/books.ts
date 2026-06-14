@@ -3,17 +3,21 @@ export type Book = {
   title: string;
   subtitle?: string;
   author: string;
-  price: number;
-  currency: string;
+  /** Prix en magasin — absent si le tarif n'a pas encore été communiqué */
+  price?: number;
+  currency?: string;
   category: string;
   cover?: string;
   coverPalette: [string, string];
   languages: string[];
   summary: string;
   description: string[];
+  /** Extrait paginé : chaque entrée du tableau est une page, chaque page est un tableau de paragraphes. */
+  excerpt?: string[][];
   isHouseEdition: boolean;
   pages?: number;
   year?: number;
+  isbn?: string;
   isPlaceholder?: boolean;
 };
 
@@ -31,7 +35,7 @@ const houseEditions: Book[] = [
     price: 1800,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Butti.jpg",
+    cover: "/images/livres/butti.jpg",
     coverPalette: ["#5fb6c4", "#f3b65f"],
     languages: ["Somali", "Afar"],
     summary:
@@ -44,6 +48,21 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 32,
     year: 2024,
+    excerpt: [
+      [
+        "Beriyahaas waxaa jiray magaalo yar oo dhinacyada Gacanka Berbera xiga. Degaanka waxaa horumariyay biyaha badda iyo hoyga kalluunka. Laakiin habeenkii, markii qorraxdu dhacdo, carruurtu waxay si degdeg ah u galaan guryaha.",
+        "Hooyadood waxay ku odhan jirtay: 'Ku soo laabo! Haddaad dibada joogtaan, Buti bay idin cunaysaa!' Ereyga 'Buti' kaliya waxuu gelinayay cabsi qalbi-dhexaadka ah, oo caruurtu ay ku ordaan gusha.",
+      ],
+      [
+        "Laakiin wiilkii Maxamed magiciisu wuxuu ahaa, waxa uu u malayn jiray in Buti uusan dhab ahayn. 'Ma jirto wax la yiraahdo Buti,' ayuu u sheegi jiray saaxiibbadiis. 'Waa sheeko oo kaliya ay carruurta lagu cabsiinayaan.'",
+        "Saaxiibbadiisuna waxay u dhaqdhi jireen, oo qoslayaan. Eeddiisii ayaa tidhi: 'Fiiri, Maxamed — habeenkii ha bixin. Buti waa run!'",
+        "Maxamed oo qoslaya ayuu eeddiisii ku yiri: 'Bal aan xaalkay aragno, kolba Buti ii tusi.'",
+      ],
+      [
+        "Habeenkii danbe, markii Maxamed biyaha u socday jiidda biyaha, wuxuu maqlay sanqadh weyn oo ka timaada dhinaca geedaha waaweyn ee dhabaha ku dhow.",
+        "Jilbihiisu waxay bilaabeen inay garaacaan. Laakiin wuxuu go'aansaday inuu sii wado — qalbigiisuna wuxuu dhaafay cabsida, oo dhan dhan u socdaa mugga habeenka...",
+      ],
+    ],
   },
   {
     slug: "mon-frere-au-cerveau-colore",
@@ -53,7 +72,7 @@ const houseEditions: Book[] = [
     price: 1800,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Mon-frere-cerveau-colore.jpg",
+    cover: "/images/livres/mon-frere-cerveau-colore.jpg",
     coverPalette: ["#f2785a", "#27b892"],
     languages: ["Somali", "Afar", "Français"],
     summary:
@@ -66,6 +85,23 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 28,
     year: 2021,
+    excerpt: [
+      [
+        "Mon frère s'appelle Adam. Il a sept ans — comme moi, ou presque. Moi j'ai sept ans et demi, alors je suis l'aînée, même si on est jumeaux. Maman dit que je suis sortie la première et que j'en ai profité pour prendre toute l'impatience.",
+        "Adam et moi, on se ressemble sur plein de choses. On aime tous les deux le riz à la sauce tomate, les dessins animés du mercredi matin, et les gros orages qui font trembler les fenêtres.",
+        "Mais il y a des choses qui sont différentes chez Adam.",
+      ],
+      [
+        "Adam n'aime pas quand on le touche sans le prévenir. Il dit que ça fait comme des fourmis électriques dans tout son corps. Alors je lui dis toujours : « Adam, je vais te faire un câlin, d'accord ? » Et là, il peut se préparer.",
+        "À la cantine, Adam mange toujours avec ses bouchons d'oreilles orange. Certains enfants rigolent. Moi, ça me met en colère.",
+        "Un soir, j'ai demandé à maman : « Qu'est-ce qui ne va pas chez Adam ? »",
+      ],
+      [
+        "Maman a posé sa tasse de thé. Elle a pris mes deux mains dans les siennes et m'a regardée dans les yeux.",
+        "« Rien ne va pas chez ton frère, ma chérie. Son cerveau est simplement câblé différemment du nôtre. On appelle ça l'autisme. Son cerveau perçoit le monde avec beaucoup, beaucoup plus de détails et de couleurs en même temps que le tien ou le mien. »",
+        "J'ai réfléchi à ça longtemps ce soir-là. Le cerveau coloré d'Adam. J'ai fini par trouver ça plutôt beau.",
+      ],
+    ],
   },
   {
     slug: "habsamidii-wacays",
@@ -75,7 +111,7 @@ const houseEditions: Book[] = [
     price: 1900,
     currency: "FDJ",
     category: "Album & BD",
-    cover: "/images/livres/Habsamidii-wacays.jpg",
+    cover: "/images/livres/habsamidii-wacays.jpg",
     coverPalette: ["#134a55", "#f3b65f"],
     languages: ["Somali", "Afar", "Français"],
     summary:
@@ -192,6 +228,23 @@ const houseEditions: Book[] = [
     isHouseEdition: true,
     pages: 48,
     year: 2022,
+  },
+  {
+    slug: "maan-filanayn",
+    title: "Maan Filanayn",
+    author: "Sakariye Khayre",
+    category: "Littérature",
+    cover: "/images/livres/maan-filanayn.jpg",
+    coverPalette: ["#c9a876", "#3d2f1f"],
+    languages: ["Somali"],
+    isbn: "9782487618114",
+    summary:
+      "Une œuvre littéraire en somali signée Sakariye Khayre, publiée par Les Éditions Deeqsan — passez en librairie pour la découvrir.",
+    description: [
+      "« Maan Filanayn » — « Je ne m'y attendais pas » — est une œuvre en langue somali de Sakariye Khayre, parue aux Éditions Deeqsan.",
+      "La fiche détaillée de cet ouvrage (résumé, extrait, prix) sera complétée prochainement. En attendant, notre équipe se fera un plaisir de vous le présenter en librairie, à Djibouti.",
+    ],
+    isHouseEdition: true,
   },
 ];
 
@@ -520,6 +573,6 @@ export function getCategories(): string[] {
   return Array.from(new Set(books.map((book) => book.category))).sort();
 }
 
-export function formatPrice(price: number, currency: string): string {
+export function formatPrice(price: number, currency: string = "FDJ"): string {
   return `${price.toLocaleString("fr-FR")} ${currency}`;
 }

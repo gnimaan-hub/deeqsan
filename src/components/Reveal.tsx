@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, createElement } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -11,7 +11,7 @@ type RevealProps = {
 };
 
 export default function Reveal({ children, delay = 0, className = "", as = "div", aboveFold = false }: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -34,13 +34,16 @@ export default function Reveal({ children, delay = 0, className = "", as = "div"
 
   const baseClass = aboveFold ? "reveal-hero" : "reveal";
 
-  return createElement(
-    as,
-    {
-      ref,
-      className: `${baseClass} ${visible ? "is-visible" : ""} ${className}`,
-      style: { transitionDelay: `${delay}ms` },
-    },
-    children
+  // Typé "div" pour unifier la signature de ref ; rend bien div/li/span à l'exécution
+  const Tag = as as "div";
+
+  return (
+    <Tag
+      ref={ref}
+      className={`${baseClass} ${visible ? "is-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </Tag>
   );
 }

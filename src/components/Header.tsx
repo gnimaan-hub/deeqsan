@@ -2,25 +2,48 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Logo from "./Logo";
-import { useLanguage, type Lang } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import T from "./T";
+
+type Theme = "dark" | "light";
+
+/*
+ * Le thème vit sur <html data-theme> (posé avant le premier paint par le
+ * script inline du layout) ; on s'y abonne via useSyncExternalStore pour
+ * que l'icône reste synchronisée sans setState dans un effet.
+ */
+const themeListeners = new Set<() => void>();
+
+function getTheme(): Theme {
+  return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+}
+
+function applyTheme(next: Theme) {
+  if (next === "light") {
+    document.documentElement.setAttribute("data-theme", "light");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  try {
+    localStorage.setItem("deeqsan-theme", next);
+  } catch {}
+  themeListeners.forEach((cb) => cb());
+}
+
+function subscribeTheme(cb: () => void) {
+  themeListeners.add(cb);
+  return () => themeListeners.delete(cb);
+}
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const theme = useSyncExternalStore(subscribeTheme, getTheme, () => "dark" as Theme);
   const { lang, setLang } = useLanguage();
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("deeqsan-theme");
-      if (stored === "light") setTheme("light");
-    } catch {}
-  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,18 +57,9 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  const closeMenu = () => setOpen(false);
 
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    try { localStorage.setItem("deeqsan-theme", next); } catch {}
-    if (next === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
-  };
+  const toggleTheme = () => applyTheme(theme === "dark" ? "light" : "dark");
 
   const toggleLang = () => setLang(lang === "fr" ? "en" : "fr");
 
@@ -66,7 +80,7 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-10 gap-3">
-        <Link href="/" aria-label="Les Éditions Deeqsan — Accueil" className="group/logo shrink-0">
+        <Link href="/" className="group/logo shrink-0">
           <span className="inline-block transition-transform duration-500 group-hover/logo:-rotate-2 group-hover/logo:scale-[1.03]">
             <Logo />
           </span>
@@ -112,7 +126,7 @@ export default function Header() {
           <button
             type="button"
             onClick={toggleLang}
-            aria-label={lang === "fr" ? "Switch to English" : "Passer en français"}
+            aria-label={lang === "fr" ? "FR/EN — Switch to English" : "FR/EN — Passer en français"}
             className="flex h-9 items-center gap-1 rounded-full border border-sand bg-paper/70 px-3 text-xs font-bold text-ink-soft transition-colors hover:border-jade/40 hover:text-jade-bright"
           >
             <span className={lang === "fr" ? "text-jade-bright" : "text-ink-soft"}>FR</span>
@@ -124,7 +138,11 @@ export default function Header() {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+            aria-label={
+              theme === "dark"
+                ? lang === "en" ? "Switch to light mode" : "Passer en mode clair"
+                : lang === "en" ? "Switch to dark mode" : "Passer en mode sombre"
+            }
             className="flex h-9 w-9 items-center justify-center rounded-full border border-sand bg-paper/70 text-ink-soft transition-colors hover:border-jade/40 hover:text-jade-bright"
           >
             {theme === "dark" ? (
@@ -144,7 +162,11 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={
+              open
+                ? lang === "en" ? "Close menu" : "Fermer le menu"
+                : lang === "en" ? "Open menu" : "Ouvrir le menu"
+            }
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
@@ -158,8 +180,12 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile nav */}
-      <div id="mobile-nav" className={`overflow-hidden transition-[max-height,opacity] duration-300 lg:hidden ${open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"}`}>
+      {/* Mobile nav — inert quand fermé pour le sortir de l'ordre de tabulation */}
+      <div
+        id="mobile-nav"
+        inert={!open}
+        className={`overflow-hidden transition-[max-height,opacity] duration-300 lg:hidden ${open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"}`}
+      >
         <nav className="flex flex-col gap-1 border-t border-sand bg-paper/95 px-6 py-4 backdrop-blur-md">
           {links.map((link, i) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -167,6 +193,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={closeMenu}
                 style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
                 className={`translate-x-0 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 ${open ? "opacity-100" : "-translate-x-2 opacity-0"} ${active ? "bg-jade-pale/30 text-jade-bright" : "text-ink-soft"}`}
               >
@@ -176,6 +203,7 @@ export default function Header() {
           })}
           <Link
             href="/librairie"
+            onClick={closeMenu}
             className="shine-sweep mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-jade px-5 py-3 text-sm font-semibold text-white transition-transform hover:bg-jade-deep"
           >
             <T fr="Découvrir le catalogue" en="Browse catalogue" />

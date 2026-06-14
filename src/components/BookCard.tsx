@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Book } from "@/lib/books";
 import { formatPrice } from "@/lib/books";
 import BookCover from "./BookCover";
+import T from "./T";
 
 export default function BookCard({ book }: { book: Book }) {
   return (
@@ -20,10 +21,16 @@ export default function BookCard({ book }: { book: Book }) {
       </h3>
       <p className="mt-1 text-sm text-ink-soft">{book.author}</p>
       <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-jade-bright">
-        <span>{formatPrice(book.price, book.currency)}</span>
+        <span>
+          {book.price != null ? (
+            formatPrice(book.price, book.currency)
+          ) : (
+            <T fr="Prix en librairie" en="Price in-store" />
+          )}
+        </span>
         <span aria-hidden className="text-ink-soft">&middot;</span>
         <span className="link-underline text-ink-soft transition-colors group-hover:text-coral">
-          Découvrir
+          <T fr="Découvrir" en="Discover" />
           <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
             &rarr;
           </span>

@@ -279,7 +279,7 @@ export default function MaisonEditionPage() {
           <span className="animate-glow-pulse absolute -right-16 top-20 h-72 w-72 rounded-full bg-mango/20 blur-3xl" style={{ animationDelay: "1.5s" }} />
         </div>
         <div className="mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-10">
-          <Reveal>
+          <Reveal aboveFold>
             <Eyebrow tone="lagoon" className="mx-auto">
               <T fr="La maison d'édition" en="The publishing house" />
             </Eyebrow>
@@ -333,7 +333,7 @@ export default function MaisonEditionPage() {
 
           {/* PILIERS REDESIGNÉS */}
           <Reveal delay={100} className="grid gap-5">
-            {pillars.map((pillar, i) => (
+            {pillars.map((pillar) => (
               <div
                 key={pillar.id}
                 className="surface-textured group relative overflow-hidden rounded-2xl border border-sand bg-surface/70 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-30px_rgba(19,74,85,0.45)]"
@@ -392,7 +392,7 @@ export default function MaisonEditionPage() {
       </section>
 
       {/* PROCESSUS EDITORIAL — TIMELINE MODERNE */}
-      <section className="relative overflow-hidden bg-lagoon bg-canopy-motif py-24 text-ink">
+      <section className="relative overflow-hidden bg-lagoon bg-canopy-motif py-24 text-ink-dark">
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-jade/15 blur-3xl" />
         <div aria-hidden className="animate-glow-pulse pointer-events-none absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-coral/15 blur-3xl" style={{ animationDelay: "2.4s" }} />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
@@ -406,7 +406,7 @@ export default function MaisonEditionPage() {
                 en="From manuscript to readers' hands: our editorial process"
               />
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-ink/75">
+            <p className="mt-4 text-base leading-relaxed text-ink-dark/80">
               <T
                 fr="Chaque ouvrage que nous publions traverse un parcours rigoureux, pensé pour révéler le meilleur de chaque texte tout en accompagnant ses auteurs avec attention."
                 en="Every book we publish goes through a rigorous journey, designed to reveal the best in each text while carefully supporting its authors."
@@ -431,10 +431,10 @@ export default function MaisonEditionPage() {
                       {parseInt(item.step)}
                     </span>
                   </div>
-                  <h3 className="relative font-display text-lg font-semibold text-ink leading-snug">
+                  <h3 className="relative font-display text-lg font-semibold text-ink-dark leading-snug">
                     <T fr={item.title} en={item.titleEn} />
                   </h3>
-                  <p className="relative mt-3 flex-1 text-sm leading-relaxed text-ink/68">
+                  <p className="relative mt-3 flex-1 text-sm leading-relaxed text-ink-dark/80">
                     <T fr={item.text} en={item.textEn} />
                   </p>
                   {/* Bottom accent line */}
@@ -445,7 +445,7 @@ export default function MaisonEditionPage() {
           </div>
 
           <Reveal delay={200} className="mt-14 text-center">
-            <p className="mx-auto max-w-xl text-sm text-ink/65">
+            <p className="mx-auto max-w-xl text-sm text-ink-dark/80">
               <T
                 fr="Vous êtes auteur et souhaitez soumettre un manuscrit ? Nous serions ravis d'échanger avec vous."
                 en="Are you an author looking to submit a manuscript? We'd love to hear from you."
@@ -513,7 +513,11 @@ export default function MaisonEditionPage() {
                     <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">{book.summary}</p>
                     <div className="mt-5 flex flex-wrap items-center gap-3">
                       <span className="rounded-full bg-jade-pale px-3 py-1 text-xs font-semibold text-jade-deep">
-                        {formatPrice(book.price, book.currency)}
+                        {book.price != null ? (
+                          formatPrice(book.price, book.currency)
+                        ) : (
+                          <T fr="Prix en librairie" en="Price in-store" />
+                        )}
                       </span>
                       {book.languages.map((lang) => (
                         <span key={lang} className="rounded-full bg-sand/70 px-3 py-1 text-xs font-medium text-ink-soft">
