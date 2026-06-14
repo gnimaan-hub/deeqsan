@@ -8,52 +8,65 @@ interface Props {
   pages: string[][];
 }
 
-function PageContent({
-  paragraphs,
-  pageNumber,
-}: {
-  paragraphs: string[];
-  pageNumber: number;
-}) {
-  if (paragraphs.length === 0) return <div className="h-full w-full bg-paper" />;
-  return (
-    <div className="relative flex h-full w-full flex-col bg-paper">
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-5 w-px bg-gradient-to-b from-transparent via-sand/30 to-transparent"
-      />
-      <div className="flex-1 overflow-hidden px-7 py-8 sm:px-10 sm:py-10">
-        <div className="space-y-4 font-display text-[0.88rem] leading-[1.85] text-ink-soft sm:text-[0.93rem] sm:leading-[1.9]">
-          {paragraphs.map((p, i) => (
-            <p key={i} className={i === 0 ? "text-ink" : ""}>
-              {p}
-            </p>
-          ))}
-        </div>
-      </div>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-8 left-0 right-0 h-10 bg-gradient-to-t from-paper to-transparent"
-      />
-      <div className="flex justify-center pb-3 pt-1">
-        <span className="text-[0.6rem] font-medium uppercase tracking-[0.16em] text-ink-soft/40">
-          — {pageNumber} —
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// Expose jQuery + turn.js load state globally so multiple instances don't re-load
 declare global {
   interface Window {
     __turnJsReady?: boolean;
   }
 }
 
+function esc(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/** Construit le HTML d'une page à partir des paragraphes. */
+function pageHTML(paragraphs: string[], num: number): string {
+  if (paragraphs.length === 0) return "";
+  const ps = paragraphs
+    .map(
+      (p, i) =>
+        `<p style="margin:0;color:${i === 0 ? "var(--ink)" : "var(--ink-soft)"}">${esc(p)}</p>`
+    )
+    .join("");
+
+  return `
+    <div style="position:relative;display:flex;flex-direction:column;height:100%;
+                width:100%;background:var(--paper);box-sizing:border-box;overflow:hidden;">
+      <!-- reliure -->
+      <div style="position:absolute;top:0;bottom:0;left:1.25rem;width:1px;
+                  background:linear-gradient(to bottom,transparent,
+                    color-mix(in srgb,var(--sand) 30%,transparent),transparent);"
+           aria-hidden="true"></div>
+      <!-- texte -->
+      <div style="flex:1;overflow:hidden;padding:2rem 1.75rem 0;box-sizing:border-box;">
+        <div style="display:flex;flex-direction:column;gap:1rem;
+                    font-family:var(--font-display,Georgia,serif);
+                    font-size:0.9rem;line-height:1.85;">
+          ${ps}
+        </div>
+      </div>
+      <!-- fondu bas -->
+      <div style="position:absolute;bottom:2.5rem;left:0;right:0;height:2.5rem;
+                  background:linear-gradient(to top,var(--paper),transparent);
+                  pointer-events:none;" aria-hidden="true"></div>
+      <!-- numéro -->
+      <div style="display:flex;justify-content:center;padding-bottom:0.75rem;flex-shrink:0;">
+        <span style="font-size:0.6rem;font-weight:500;text-transform:uppercase;
+                     letter-spacing:0.16em;
+                     color:color-mix(in srgb,var(--ink-soft) 40%,transparent);">
+          — ${num} —
+        </span>
+      </div>
+    </div>`;
+}
+
 export default function BookExcerptViewer({ pages }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  // bookRef est intentionnellement vide dans le JSX — turn.js gère ses enfants
   const bookRef = useRef<HTMLDivElement>(null);
+  const [jqReady, setJqReady] = useState(false);
   const [scriptsReady, setScriptsReady] = useState(
     typeof window !== "undefined" && !!window.__turnJsReady
   );
@@ -65,7 +78,7 @@ export default function BookExcerptViewer({ pages }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const initialized = useRef(false);
 
-  /* ── Mesure du conteneur ──────────────────────────────────────── */
+  /* ── Mesure réactive du conteneur ──────────────────────────── */
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
@@ -73,7 +86,7 @@ export default function BookExcerptViewer({ pages }: Props) {
       const w = el.offsetWidth;
       const isDouble = w >= 600;
       const pageW = isDouble ? Math.floor(w / 2) : w;
-      const pageH = Math.min(Math.round(pageW * 1.42), 540);
+      const pageH = Math.min(Math.round(pageW * 1.45), 560);
       setBookSize({ w: pageW * (isDouble ? 2 : 1), h: pageH, double: isDouble });
     };
     measure();
@@ -82,21 +95,31 @@ export default function BookExcerptViewer({ pages }: Props) {
     return () => ro.disconnect();
   }, []);
 
-  /* ── Initialisation de turn.js ────────────────────────────────── */
+  /* ── Initialisation / re-init de turn.js ───────────────────── */
   useEffect(() => {
     if (!scriptsReady || !bookSize || !bookRef.current) return;
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const $ = (window as any).$;
     if (!$ || !$.fn?.turn) return;
 
     const el = bookRef.current;
 
-    // Détruire l'instance précédente
+    // Destruction propre de l'instance précédente
     if (initialized.current) {
       try { $(el).turn("destroy"); } catch {}
+      el.innerHTML = "";
       initialized.current = false;
     }
+
+    // Pages — créées manuellement pour que React ne touche JAMAIS ces nodes
+    const allPages = [...pages];
+    if (bookSize.double && allPages.length % 2 !== 0) allPages.push([]);
+
+    allPages.forEach((paragraphs, i) => {
+      const div = document.createElement("div");
+      div.innerHTML = pageHTML(paragraphs, i + 1);
+      el.appendChild(div);
+    });
 
     $(el).turn({
       width: bookSize.w,
@@ -114,51 +137,46 @@ export default function BookExcerptViewer({ pages }: Props) {
 
     return () => {
       try { $(el).turn("destroy"); } catch {}
+      el.innerHTML = "";
       initialized.current = false;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scriptsReady, bookSize]);
 
-  /* ── Navigation ──────────────────────────────────────────────── */
-  const call = useCallback(
-    (method: string, arg?: unknown) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const $ = (window as any).$;
-      if (!$?.fn?.turn || !bookRef.current || !initialized.current) return;
-      try {
-        arg !== undefined
-          ? $(bookRef.current).turn(method, arg)
-          : $(bookRef.current).turn(method);
-      } catch {}
-    },
-    []
-  );
+  /* ── Navigation ─────────────────────────────────────────────── */
+  const call = useCallback((method: string, arg?: unknown) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const $ = (window as any).$;
+    if (!$?.fn?.turn || !bookRef.current || !initialized.current) return;
+    try {
+      arg !== undefined
+        ? $(bookRef.current).turn(method, arg)
+        : $(bookRef.current).turn(method);
+    } catch {}
+  }, []);
 
   const totalPages = pages.length;
   const isFirst = currentPage <= 1;
   const isLast = currentPage >= totalPages;
 
-  // turn.js requiert un nombre pair de pages en mode double
-  const paddedPages = [...pages];
-  if (bookSize?.double && paddedPages.length % 2 !== 0) paddedPages.push([]);
-
   return (
     <>
-      {/* Scripts chargés une seule fois, en ordre strict */}
+      {/* jQuery d'abord, turn.js uniquement après jQuery prêt */}
       <Script
         src="/jquery.min.js"
         strategy="afterInteractive"
-        onLoad={() => {
-          // turn.js sera chargé juste après via le second Script
-        }}
+        onLoad={() => setJqReady(true)}
       />
-      <Script
-        src="/turn.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          window.__turnJsReady = true;
-          setScriptsReady(true);
-        }}
-      />
+      {jqReady && !scriptsReady && (
+        <Script
+          src="/turn.js"
+          strategy="afterInteractive"
+          onLoad={() => {
+            window.__turnJsReady = true;
+            setScriptsReady(true);
+          }}
+        />
+      )}
 
       <section className="mt-16">
         <div className="flex items-center justify-between">
@@ -172,24 +190,18 @@ export default function BookExcerptViewer({ pages }: Props) {
           </span>
         </div>
 
-        {/* ── Livre ── */}
+        {/* Livre — le div bookRef est volontairement vide dans le JSX */}
         <div ref={wrapperRef} className="mt-6 flex w-full justify-center">
           {bookSize && (
             <div
               ref={bookRef}
-              className="overflow-hidden rounded-xl border border-sand/50 shadow-[0_8px_36px_-10px_rgba(15,61,45,0.22)]"
+              className="rounded-xl border border-sand/50 shadow-[0_8px_36px_-10px_rgba(15,61,45,0.22)]"
               style={{ width: bookSize.w, height: bookSize.h }}
-            >
-              {paddedPages.map((paragraphs, i) => (
-                <div key={i} style={{ height: bookSize.h }}>
-                  <PageContent paragraphs={paragraphs} pageNumber={i + 1} />
-                </div>
-              ))}
-            </div>
+            />
           )}
         </div>
 
-        {/* ── Navigation ── */}
+        {/* Navigation */}
         <div className="mt-5 flex items-center justify-between">
           <button
             type="button"
