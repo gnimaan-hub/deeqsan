@@ -424,54 +424,29 @@ h1, h2, h3, h4 {
   will-change: auto;
 }
 
-/* Feuilletage des extraits — la feuille pivote sur la reliure (bord gauche).
-   En avançant, la page courante se replie et découvre la suivante dessous ;
-   en reculant, la page précédente se déplie par-dessus. */
-.page-turn-stage {
-  perspective: 1800px;
+/* Feuilletage — react-pageflip gère le canvas et les animations.
+   On habille juste le conteneur et chaque feuille HTML. */
+.book-stage {
+  /* Ombre douce sous le livre entier */
+  filter: drop-shadow(0 12px 32px rgba(15, 61, 45, 0.18)) drop-shadow(0 2px 6px rgba(15, 61, 45, 0.10));
 }
-.page-turn-sheet {
-  transform-origin: left center;
-  backface-visibility: hidden;
-  will-change: transform;
-  box-shadow: 14px 0 36px -14px rgba(15, 61, 45, 0.4);
+
+/* Chaque page HTML rendue par react-pageflip */
+.book-page {
+  border: 1px solid color-mix(in srgb, var(--sand) 60%, transparent);
+  box-sizing: border-box;
 }
-@keyframes page-fold-out {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(-89deg); }
+
+/* Bord extérieur gauche du livre (page paire = côté gauche) */
+.book-page:nth-child(odd) {
+  border-right: none;
+  border-radius: 4px 0 0 4px;
 }
-@keyframes page-fold-in {
-  from { transform: rotateY(-89deg); }
-  to { transform: rotateY(0deg); }
-}
-.page-fold-out {
-  animation: page-fold-out 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-}
-.page-fold-in {
-  animation: page-fold-in 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-}
-/* Ombre portée sur la feuille : s'assombrit à mesure qu'elle se redresse */
-.page-turn-shade {
-  opacity: 0;
-  background: linear-gradient(to right, rgba(10, 26, 20, 0.28), rgba(10, 26, 20, 0.06) 55%, transparent);
-  pointer-events: none;
-}
-@keyframes page-shade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.page-fold-out .page-turn-shade {
-  animation: page-shade 0.55s ease forwards;
-}
-.page-fold-in .page-turn-shade {
-  animation: page-shade 0.55s ease reverse forwards;
-}
-/* Pose de la feuille après un swipe : transition depuis l'angle atteint au doigt */
-.page-turn-settle {
-  transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.4, 1);
-}
-.page-turn-settle .page-turn-shade {
-  transition: opacity 0.32s ease;
+
+/* Bord extérieur droit du livre (page impaire = côté droit) */
+.book-page:nth-child(even) {
+  border-left: 1px solid color-mix(in srgb, var(--sand) 30%, transparent);
+  border-radius: 0 4px 4px 0;
 }
 
 ::selection {
